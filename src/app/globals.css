@@ -2,26 +2,76 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+* {
+  transition-duration: 230ms;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.mainPage {
+  flex-direction: column;
+  overflow-y: scroll;
+  padding: 50px 20%;
+  display: flex;
+  width: 100%;
+  gap: 50px;
+  flex: 1;
+  padding-bottom: 200px;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.navLink {
+  background-color: #0001;
+  border-radius: 100px;
+  align-items: center;
+  padding: 5px 20px;
+  font-size: 22px;
+  color: #000a;
+  display: flex;
+  height: 100%;
+}
+
+.navLink:hover {
+  background-color: #0003;
+  color: black;
+}
+
+/* -------------- STANDARD FORM ---------------- */
+
+.standardForm {
+  flex-direction: column;
+  font-size: 20px;
+  max-width: 100%;
+  display: flex;
+  padding: 5px;
+  width: 600px;
+  gap: 10px;
+}
+
+.standardForm h1 {
+  font-size: 35px;
+}
+
+.standardForm input[type='text'] {
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+}
+
+.standardForm input[type='submit'] {
+  background-color: orange;
+  border: 2px solid transparent;
+  margin-bottom: 20px;
+  margin-top: 50px;
+  cursor: pointer;
+  outline: none;
+  padding: 5px;
+  opacity: 0.5;
+}
+
+.standardForm input[type='submit']:hover,
+.standardForm input[type='submit']:focus {
+  border-color: black;
+  opacity: 1;
+}
+
+.standardForm select {
+  padding: 5px;
 }

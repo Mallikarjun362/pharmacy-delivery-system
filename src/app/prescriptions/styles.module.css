@@ -1,0 +1,58 @@
+.prescriptionCreationForm {
+  --focus-fg: #36c0e599;
+  --focus-bg: #36c0e522;
+  --dull-fg: #0005;
+  --dull-bg: #0001;
+  box-shadow: 0px 0px 15px 1px #0005;
+  background-color: white;
+  flex-direction: column;
+  font-size: 25px;
+  color: black;
+  padding: 30px;
+  display: flex;
+  gap: 30px;
+}
+
+.prescriptionCreationForm input[type='text'] {
+  border-bottom: 2px solid #0002;
+  transition-duration: 100ms;
+  outline: none;
+  padding: 10px;
+}
+
+.prescriptionCreationForm input[type='text']:focus,
+.prescriptionCreationForm input[type='text']:hover {
+  border-bottom: 3px solid var(--focus-fg);
+  background-color: var(--focus-bg);
+}
+
+.prescriptionCreationForm input[type='file'] {
+  border: 3px dotted var(--dull-fg);
+  border-radius: 10px;
+  font-size: 20px;
+  padding: 20px;
+}
+
+.prescriptionCreationForm input[type='file']:focus,
+.prescriptionCreationForm input[type='file']:hover {
+  background-color: var(--focus-bg);
+  border-color: var(--focus-fg);
+  outline: none;
+}
+
+.prescriptionCreationForm input[type='submit'] {
+  background-color: var(--dull-bg);
+  align-self: center;
+  border-radius: 5px;
+  width: min-content;
+  padding: 10px 30px;
+  border-width: 2px;
+  cursor: pointer;
+  outline: none;
+}
+
+.prescriptionCreationForm input[type='submit']:hover,
+.prescriptionCreationForm input[type='submit']:focus {
+  background-color: var(--focus-bg);
+  border-color: var(--focus-fg);
+}
