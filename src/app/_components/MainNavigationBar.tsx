@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import acnt from "C:\\Users\\Admin\\Desktop\\Semester-6\\CSD\\pharmacy-delivery-system\\public\\person.svg"
+import acnt from "@/../../public/person.svg"
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 import { debugLog } from '@/utils';
