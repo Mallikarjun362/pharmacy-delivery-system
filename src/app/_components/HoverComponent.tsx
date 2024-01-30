@@ -27,7 +27,7 @@ export default function HoverComponent() {
           overflowY: 'scroll',
           minHeight: '400px',
           minWidth: '400px',
-          maxHeight: '70%',
+          maxHeight: '80%',
           padding: '10px',
           maxWidth: '80%',
         }}

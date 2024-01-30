@@ -3,8 +3,8 @@ import { MONGODB_URI } from "@/utils/Constants";
 
 interface IAddress {
     additional_details: string,
-    building: string,
     landmarks: string,
+    building: string,
     city: string,
 };
 
@@ -22,8 +22,17 @@ export interface IAccount {
     phone_number: string,
     student_id: number,
 
-    upi_id: string,
+    user_type: "BUYER" | "SELLER" | "DISPATCHER" | "ADMIN" | "GENERAL",
+    notifications: Array<INotification>,
+    is_verified_by_admin: boolean,
+    proof_documents: Array<any>,
+    medical_history: Array<any>,
+    last_field_update: Date,
     gst_number: string,
+    field_update: any,
+    seller_owner: any,
+    joined_at: Date,
+    upi_id: string,
 
     gender: "MALE" | "FEMALE",
     father_name: string,
@@ -34,15 +43,6 @@ export interface IAccount {
     last_name: string,
     longitude: number,
     latitude: number,
-
-    user_type: "BUYER" | "SELLER" | "DISPATCHER" | "ADMIN" | "GENERAL",
-    notifications: Array<INotification>,
-    is_verified_by_admin: boolean,
-    proof_documents: Array<any>,
-    medical_history: Array<any>,
-    last_field_update: Date,
-    field_update: any,
-    joined_at: Date,
 };
 
 const account_schema = new Schema<IAccount>({
@@ -53,14 +53,6 @@ const account_schema = new Schema<IAccount>({
     telegram_number: { type: SchemaTypes.String, maxlength: 20, },
     phone_number: { type: SchemaTypes.String, maxlength: 20, },
 
-    user_type: { type: SchemaTypes.String, enum: ["BUYER", "SELLER", "DISPATCHER", "ADMIN", "GENERAL"], default: "GENERAL" },
-    medical_history: [{ type: SchemaTypes.ObjectId, ref: 'Prescription' }],
-    joined_at: { type: SchemaTypes.Date, default: () => Date.now() },
-    is_verified_by_admin: SchemaTypes.Boolean,
-    last_field_update: SchemaTypes.Date,
-    gst_number: SchemaTypes.String,
-    upi_id: SchemaTypes.String,
-
     gender: { type: SchemaTypes.String, enum: ["MALE", "FEMALE"] },
     first_name: { type: SchemaTypes.String, maxlength: 50 },
     last_name: { type: SchemaTypes.String, maxlength: 50 },
@@ -69,10 +61,20 @@ const account_schema = new Schema<IAccount>({
     blood_group: SchemaTypes.String,
     longitude: SchemaTypes.Number,
     latitude: SchemaTypes.Number,
+
+    user_type: { type: SchemaTypes.String, enum: ["BUYER", "SELLER", "DISPATCHER", "ADMIN", "GENERAL"], default: "GENERAL" },
+    medical_history: [{ type: SchemaTypes.Buffer, ref: 'Prescription' }],
+    joined_at: { type: SchemaTypes.Date, default: () => Date.now() },
+    seller_owner: { type: SchemaTypes.ObjectId, ref: "Account" },
+    is_verified_by_admin: SchemaTypes.Boolean,
+    last_field_update: SchemaTypes.Date,
+    gst_number: SchemaTypes.String,
+    upi_id: SchemaTypes.String,
+
     address: {
         additional_details: SchemaTypes.String,
-        building: SchemaTypes.String,
         landmarks: SchemaTypes.String,
+        building: SchemaTypes.String,
         city: SchemaTypes.String,
     },
     field_update: {
@@ -81,7 +83,6 @@ const account_schema = new Schema<IAccount>({
         gst_number: { t: { type: SchemaTypes.Date, default: () => Date.now() }, s: { type: SchemaTypes.Boolean, default: false }, },
         address: { t: { type: SchemaTypes.Date, default: () => Date.now() }, s: { type: SchemaTypes.Boolean, default: false }, },
     },
-
     notifications: [{
         message: SchemaTypes.String,
         timestamp: SchemaTypes.Date,
@@ -104,11 +105,11 @@ const Account = mongoose.models.Account as any || mongoose.model<IAccount>('Acco
 
 interface IAccountActions {
     isEmailExists(primary_email: string): Promise<Boolean>,
-    createBasicAccount(props: any): Promise<any>,
     deleteAccount(db_id: string): Promise<Boolean>,
+    createBasicAccount(props: any): Promise<any>,
 
-    getUserRefAndTypeIdByEmail(primary_email: string): Promise<any>,
     getUserTypeByEmail(primary_email: string): Promise<string | null>,
+    getUserRefAndTypeIdByEmail(primary_email: string): Promise<any>,
     getUserDetailsMini(db_id: string): Promise<any>,
     getUserDetailsFull(db_id: string): Promise<any>,
 }

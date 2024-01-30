@@ -52,7 +52,11 @@ export default async function MainNavigationBar() {
           : null}
         {session && session.user.custome_data.user_type == 'SELLER'
           ? [
-              <Link href={'/seller/orders'} className="navLink" key={'s-orders'}>
+              <Link
+                href={'/seller/orders'}
+                className="navLink"
+                key={'s-orders'}
+              >
                 Orders
               </Link>,
               <Link
@@ -71,6 +75,15 @@ export default async function MainNavigationBar() {
             </Link>,
             <Link href={'/account'} className="navLink" key={'account'}>
               Account
+              <span
+                style={{
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                }}
+              >
+                {' '}
+                - {session?.user?.custome_data?.user_type}
+              </span>
             </Link>,
             <Link
               href={'/api/auth/signout?callbackUrl=/'}

@@ -37,26 +37,38 @@
 
 .standardForm {
   flex-direction: column;
+  min-width: 600px;
   font-size: 20px;
   max-width: 100%;
+  color: black;
   display: flex;
-  padding: 5px;
-  width: 600px;
+  padding: 30px;
+  width: 100%;
   gap: 10px;
+}
+
+.standardForm input,
+textarea {
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+}
+.standardForm .resetSubmitDiv {
+  display: flex;
+}
+
+.standardForm .resetSubmitDiv {
+  flex: 1;
+  gap: 20px;
 }
 
 .standardForm h1 {
   font-size: 35px;
 }
 
-.standardForm input[type='text'] {
-  border-radius: 5px;
-  padding: 10px;
-  width: 100%;
-}
-
-.standardForm input[type='submit'] {
-  background-color: orange;
+.standardForm input[type='submit'],
+.standardForm input[type='reset'] {
+  background-color: lightgreen;
   border: 2px solid transparent;
   margin-bottom: 20px;
   margin-top: 50px;
@@ -66,8 +78,14 @@
   opacity: 0.5;
 }
 
+.standardForm input[type='reset'] {
+  background-color: orange;
+}
+
 .standardForm input[type='submit']:hover,
-.standardForm input[type='submit']:focus {
+.standardForm input[type='submit']:focus ,
+.standardForm input[type='reset']:hover,
+.standardForm input[type='reset']:focus {
   border-color: black;
   opacity: 1;
 }

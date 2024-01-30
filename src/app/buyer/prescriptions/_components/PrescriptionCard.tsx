@@ -3,7 +3,7 @@ import PlaceOrder, {
   PlaceOrderButton,
   ViewPrescriptionImageButton,
 } from './ClientComponents';
-import { deletePrescription, placeOrder } from '../_functionality';
+import { deletePrescription, } from '../_functionality';
 import { format } from 'date-fns';
 
 export default function PrescriptionCard({

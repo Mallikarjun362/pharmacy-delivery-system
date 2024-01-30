@@ -7,7 +7,6 @@ import {
 } from '../_functionality';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { OrderActions } from '@/models/Order';
 
 export const ViewPrescriptionImageButton = ({ _id }: { _id: string }) => {
   const { setHoverContent } = useGlobalContext();
