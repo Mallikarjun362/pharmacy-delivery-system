@@ -3,7 +3,7 @@ import { MONGODB_URI } from "@/utils/Constants";
 
 interface IAddress {
     additional_details: string,
-    hostel_building: string,
+    building: string,
     landmarks: string,
     city: string,
 };
@@ -35,7 +35,7 @@ export interface IAccount {
     longitude: number,
     latitude: number,
 
-    user_type: "BUYER" | "SELLER" | "DISPATCHER" | "ADMIN",
+    user_type: "BUYER" | "SELLER" | "DISPATCHER" | "ADMIN" | "GENERAL",
     notifications: Array<INotification>,
     is_verified_by_admin: boolean,
     proof_documents: Array<any>,
@@ -46,14 +46,14 @@ export interface IAccount {
 };
 
 const account_schema = new Schema<IAccount>({
-    primary_email: { type: SchemaTypes.String, maxlength: 50, required: true, unique: true },
-    whatsapp_number: { type: SchemaTypes.String, maxlength: 20, unique: true, sparse: true },
-    telegram_number: { type: SchemaTypes.String, maxlength: 20, unique: true, sparse: true },
-    phone_number: { type: SchemaTypes.String, maxlength: 20, unique: true, sparse: true },
+    primary_email: { type: SchemaTypes.String, maxlength: 100, required: true, unique: true },
     aadhar_number: { type: SchemaTypes.Number, unique: true, sparse: true },
     student_id: { type: SchemaTypes.Number, unique: true, sparse: true },
+    whatsapp_number: { type: SchemaTypes.String, maxlength: 20, },
+    telegram_number: { type: SchemaTypes.String, maxlength: 20, },
+    phone_number: { type: SchemaTypes.String, maxlength: 20, },
 
-    user_type: { type: SchemaTypes.String, enum: ["BUYER", "SELLER", "DISPATCHER", "ADMIN"], default: "BUYER" },
+    user_type: { type: SchemaTypes.String, enum: ["BUYER", "SELLER", "DISPATCHER", "ADMIN", "GENERAL"], default: "GENERAL" },
     medical_history: [{ type: SchemaTypes.ObjectId, ref: 'Prescription' }],
     joined_at: { type: SchemaTypes.Date, default: () => Date.now() },
     is_verified_by_admin: SchemaTypes.Boolean,
@@ -71,7 +71,7 @@ const account_schema = new Schema<IAccount>({
     latitude: SchemaTypes.Number,
     address: {
         additional_details: SchemaTypes.String,
-        hostel_building: SchemaTypes.String,
+        building: SchemaTypes.String,
         landmarks: SchemaTypes.String,
         city: SchemaTypes.String,
     },
@@ -102,53 +102,56 @@ if (!(global as any)._mongooseConnection) {
 
 const Account = mongoose.models.Account as any || mongoose.model<IAccount>('Account', account_schema);
 
-export interface ISearchKey { primary_email?: string, _id?: string };
-
 interface IAccountActions {
-    createBasicAccount(props: any): Promise<Boolean>,
     isEmailExists(primary_email: string): Promise<Boolean>,
-    deleteAccount(primary_email: string): Promise<Boolean>,
+    createBasicAccount(props: any): Promise<any>,
+    deleteAccount(db_id: string): Promise<Boolean>,
 
-    getUserRefIdByEmail(primary_email: string): Promise<string>,
-    getUserDetails(primary_email: string): Promise<any>,
-    getSearchKeyFilter(props: ISearchKey): Promise<any>,
-    getUserType(primary_email: string): Promise<string>,
+    getUserRefAndTypeIdByEmail(primary_email: string): Promise<any>,
+    getUserTypeByEmail(primary_email: string): Promise<string | null>,
+    getUserDetailsMini(db_id: string): Promise<any>,
+    getUserDetailsFull(db_id: string): Promise<any>,
 }
 
 export const AccountActions: IAccountActions = {
-    getUserRefIdByEmail: async (primary_email: string): Promise<string> => ((await Account.findOne({ primary_email }).select({ _id: 1 }).lean().exec())._id as mongoose.Types.ObjectId).toString(),
-    getUserType: async (primary_email: string): Promise<string> => (await Account.findOne({ primary_email }).select({ _id: 0, user_type: 1 }).lean().exec()).user_type,
-    getSearchKeyFilter: async ({ primary_email, _id }: ISearchKey) => _id ? new mongoose.Types.ObjectId(_id) : AccountActions.getUserRefIdByEmail(primary_email || ""),
-    isEmailExists: async (primary_email: string): Promise<boolean> => !!(await Account.findOne({ primary_email }).select({ _id: 1 }).lean().exec()),
-    deleteAccount: async (primary_email: string): Promise<boolean> => !!(await Account.findOneAndDelete({ primary_email })),
-
-    getUserDetails: async (primary_email: string): Promise<any> => await Account.findOne({ primary_email }).select({
-        is_verified_by_admin: 1,
-        last_field_update: 1,
-        whatsapp_number: 1,
-        telegram_number: 1,
-        aadhar_number: 1,
-        primary_email: 1,
-        date_of_birth: 1,
-        notifications: 1,
-        phone_number: 1,
-        blood_group: 1,
-        father_name: 1,
-        student_id: 1,
-        first_name: 1,
-        last_name: 1,
-        user_type: 1,
-        address: 1,
-        gender: 1,
-        upi_id: 1,
-        _id: 0,
-    }).lean().exec(),
-
-    createBasicAccount: async ({
+    async isEmailExists(primary_email: string): Promise<boolean> {
+        return !!((await Account.findById(primary_email).select({ _id: 1 }).lean().exec())._id);
+    },
+    async getUserRefAndTypeIdByEmail(primary_email: string): Promise<any> {
+        return await Account.findOne({ primary_email }).select({ _id: 1, user_type: 1 }).exec();
+    },
+    async createBasicAccount({
         first_name = '', last_name = '', primary_email, user_type,
     }: {
         primary_email: string, first_name?: string, last_name?: string, user_type: string,
-    }) => !!(await Account.create({ primary_email, user_type, first_name, last_name }).then(() => true).catch(() => true)),
+    }) {
+        const the_user = Account({ primary_email, user_type, first_name, last_name });
+        await the_user.save();
+        return the_user;
+    },
+    async getUserTypeByEmail(primary_email: string): Promise<string> {
+        return (await Account.findOne({ primary_email }).select({ _id: 0, user_type: 1 }).lean().exec()).user_type
+    },
+    async deleteAccount(db_id: string): Promise<boolean> { return !!(await Account.findByIdAndDelete(db_id)) },
+
+    async getUserDetailsMini(db_id: string): Promise<any> {
+        return await Account.findById(db_id).select({
+            is_verified_by_admin: 1,
+            student_id: 1,
+            first_name: 1,
+            last_name: 1,
+            user_type: 1,
+            _id: 1,
+        }).lean().exec();
+    },
+    async getUserDetailsFull(db_id: string): Promise<any> {
+        return await Account.findById(db_id).select({
+            is_verified_by_admin: 1, last_field_update: 1, whatsapp_number: 1, telegram_number: 1,
+            primary_email: 1, aadhar_number: 1, date_of_birth: 1, notifications: 1, phone_number: 1,
+            blood_group: 1, father_name: 1, student_id: 1, first_name: 1, last_name: 1, user_type: 1,
+            address: 1, gender: 1, upi_id: 1, _id: 1,
+        }).lean().exec()
+    },
 }
 
 export default Account;

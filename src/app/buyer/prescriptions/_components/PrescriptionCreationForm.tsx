@@ -17,11 +17,14 @@ export default function PrescriptionCreationForm() {
       action={async (formData: FormData) => {
         const fileSizeBytes = (formData.get('image_files') as any)?.size;
         if (fileSizeBytes) {
-          const fileSizeMB = fileSizeBytes / (1024 ** 2);
+          const fileSizeMB = fileSizeBytes / 1024 ** 2;
           if (!(fileSizeMB < 3)) {
             return alert('File must be less than 3 MB');
           }
-          formData.append('email', session?.user?.email!);
+          formData.append(
+            'buyer_db_id',
+            session?.user?.custome_data?.db_id || ''
+          );
           await createPrescriptionFormAction(formData);
         }
       }}

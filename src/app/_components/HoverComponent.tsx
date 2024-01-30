@@ -23,12 +23,13 @@ export default function HoverComponent() {
           boxShadow: '0px 0px 10px 10px white',
           backgroundColor: '#DDD',
           borderRadius: '5px',
+          overflowX: 'hidden',
+          overflowY: 'scroll',
           minHeight: '400px',
-          overflow: 'hidden',
           minWidth: '400px',
-          maxHeight: '60%',
+          maxHeight: '70%',
           padding: '10px',
-          maxWidth: '60%',
+          maxWidth: '80%',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'end' }}>

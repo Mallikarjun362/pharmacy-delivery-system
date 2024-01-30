@@ -1,12 +1,12 @@
 'use client';
+import { useGlobalContext } from '@/app/_context/store';
 import { useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react';
 import {
   IGeneralAccountDetails,
   getGeneralAccountDetails,
   setGeneralAccountDetails,
 } from '../_functionality';
-import { useState, useEffect } from 'react';
-import { useGlobalContext } from '@/app/_context/store';
 
 export function GeneralDetailsEditForm() {
   const { setHoverContent } = useGlobalContext();
@@ -15,7 +15,10 @@ export function GeneralDetailsEditForm() {
   const session = useSession();
   useEffect(() => {
     (async () => {
-      const d = await getGeneralAccountDetails(session.data?.user?.email || '');
+      const d =
+        (await getGeneralAccountDetails(
+          session.data?.user?.custome_data.db_id || ''
+        )) || {};
       setDetails(d);
       setGender(d.gender);
     })();
@@ -29,12 +32,12 @@ export function GeneralDetailsEditForm() {
         setHoverContent(null);
       }}
     >
-      <h1>General Details</h1>
+      <h1>General Details :</h1>
       <input
         style={{ display: 'none' }}
         type="text"
-        name="primary_email"
-        defaultValue={session.data?.user?.email || ''}
+        name="db_id"
+        defaultValue={session.data?.user?.custome_data?.db_id || ''}
       />
       <input
         type="text"
@@ -54,7 +57,6 @@ export function GeneralDetailsEditForm() {
         placeholder="Father's name"
         defaultValue={details.father_name}
       />
-
       <input
         type="text"
         name="phone_number"
@@ -88,6 +90,31 @@ export function GeneralDetailsEditForm() {
         <option value="MALE">MALE</option>
         <option value="FEMALE">FEMALE</option>
       </select>
+      <h1>Address :</h1>
+      <input
+        type="text"
+        name="building"
+        placeholder="Building"
+        defaultValue={details?.address?.building}
+      />
+      <input
+        type="text"
+        name="additional_details"
+        placeholder="Additional details"
+        defaultValue={details?.address?.additional_details}
+      />
+      <input
+        type="text"
+        name="landmarks"
+        placeholder="Landmarks"
+        defaultValue={details?.address?.landmarks}
+      />
+      <input
+        type="text"
+        name="city"
+        placeholder="City"
+        defaultValue={details?.address?.city}
+      />
       <input type="submit" value="Update" />
     </form>
   );

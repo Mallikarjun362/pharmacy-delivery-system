@@ -1,8 +1,11 @@
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
+import { authOptions } from '../api/auth/[...nextauth]/route';
+import { debugLog } from '@/utils';
 
 export default async function MainNavigationBar() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
+  debugLog('NAV BAR', session);
   return (
     <div
       className="flex flex-wrap lg:flex-nowrap"
@@ -33,21 +36,46 @@ export default async function MainNavigationBar() {
         <Link href={'/browse'} className="navLink">
           Browse
         </Link>
+        {session && session.user.custome_data.user_type == 'BUYER'
+          ? [
+              <Link href={'/buyer/orders'} className="navLink" key={'b-orders'}>
+                Orders
+              </Link>,
+              <Link
+                href={'/buyer/prescriptions'}
+                className="navLink"
+                key={'b-prescription'}
+              >
+                Prescriptions
+              </Link>,
+            ]
+          : null}
+        {session && session.user.custome_data.user_type == 'SELLER'
+          ? [
+              <Link href={'/seller/orders'} className="navLink" key={'s-orders'}>
+                Orders
+              </Link>,
+              <Link
+                href={'/seller/catalogue'}
+                className="navLink"
+                key={'s-catalogue'}
+              >
+                Catalogue
+              </Link>,
+            ]
+          : null}
         {session ? (
           [
-            <Link href={'/orders'} className="navLink" key={1}>
-              Orders
+            <Link href={'/user-request'} className="navLink" key={'request'}>
+              User request
             </Link>,
-            <Link href={'/prescriptions'} className="navLink" key={2}>
-              Prescriptions
-            </Link>,
-            <Link href={'/account'} className="navLink" key={3}>
+            <Link href={'/account'} className="navLink" key={'account'}>
               Account
             </Link>,
             <Link
               href={'/api/auth/signout?callbackUrl=/'}
               className="navLink"
-              key={4}
+              key={'auth'}
             >
               Sign out
             </Link>,

@@ -1,14 +1,16 @@
-import { getServerSession } from 'next-auth';
-import PrescriptionCard from './_components/PrescriptionCard';
 import PrescriptionCreationForm from './_components/PrescriptionCreationForm';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import PrescriptionCard from './_components/PrescriptionCard';
 import { PrescriptionActions } from '@/models/Prescription';
+import { getServerSession } from 'next-auth';
 
 export default async function PrescriptionPage() {
-  const session = await getServerSession();
-  const my_prescriptions: Array<any> =
-    await PrescriptionActions.getMyPrescriptions({
-      primary_email: session?.user?.email!,
-    });
+  const session = await getServerSession(authOptions);
+  const my_prescriptions: Array<any> = session?.user?.custome_data?.db_id
+    ? await PrescriptionActions.getMyPrescriptions(
+        session?.user?.custome_data?.db_id
+      )
+    : [];
   return (
     <main className="mainPage">
       <PrescriptionCreationForm />

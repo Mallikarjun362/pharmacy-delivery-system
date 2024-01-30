@@ -1,7 +1,10 @@
 'use client';
-import { deletePrescription } from '../_functionality';
+import PlaceOrder, {
+  PlaceOrderButton,
+  ViewPrescriptionImageButton,
+} from './ClientComponents';
+import { deletePrescription, placeOrder } from '../_functionality';
 import { format } from 'date-fns';
-import { ViewPrescriptionImageButton } from './ClientComponents';
 
 export default function PrescriptionCard({
   details,
@@ -12,8 +15,8 @@ export default function PrescriptionCard({
     <div
       style={{
         border: '2px solid gray',
-        borderRadius: '5px',
         position: 'relative',
+        borderRadius: '5px',
         overflow: 'hidden',
         padding: '20px',
       }}
@@ -33,16 +36,7 @@ export default function PrescriptionCard({
       </p>
       <br />
       <div style={{ display: 'flex', gap: '10px' }}>
-        <button
-          onClick={() => null}
-          style={{
-            backgroundColor: 'orange',
-            borderRadius: '10px',
-            padding: '5px 10px',
-          }}
-        >
-          Place Order
-        </button>
+        <PlaceOrderButton db_id={details?._id || ''} />
         <ViewPrescriptionImageButton _id={details?._id || ''} />
         <button
           onClick={() => deletePrescription(details?._id || '')}
