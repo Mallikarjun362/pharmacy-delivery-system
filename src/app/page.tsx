@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import del_boy from "C:\\Users\\Admin\\Desktop\\Semester-6\\CSD\\pharmacy-delivery-system\\public\\images\\delivery_boy.png";
+import del_boy from "@/../../public/images/delivery_boy.png";
 import './globals.css';
 
 export default function Home() {

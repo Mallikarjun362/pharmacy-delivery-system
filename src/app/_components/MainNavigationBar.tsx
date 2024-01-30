@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import acnt from "C:\\Users\\Admin\\Desktop\\Semester-6\\CSD\\pharmacy-delivery-system\\public\\person.svg"
+import acnt from "@/../../public/person.svg"
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 import { debugLog } from '@/utils';
@@ -10,10 +10,11 @@ export default async function MainNavigationBar() {
   debugLog('NAV BAR', session);
   return (
     <div
-      className="flex flex-wrap lg:flex-nowrap"
+      className="flex"
       style={{
         justifyContent: 'space-between',
         // backgroundColor: '#36C0E5',
+        display: 'inline-flex',
         height: 'min-content',
         alignItems: 'center',
         padding: '5px 100px',
@@ -26,6 +27,9 @@ export default async function MainNavigationBar() {
       <Link
         href={'/'}
         style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          display: 'inline-flex',
           color: '#0e308fe8',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
@@ -36,7 +40,7 @@ export default async function MainNavigationBar() {
       >
         Med-Kit
       </Link>
-      <div className="flex flex-wrap items-center" style={{ gap: '10px' }}>
+      <div className="" style={{ gap: '10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
         <Link href={'/browse'} className="navLink">
           Browse
         </Link>
