@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import acnt from "@/../../public/person.svg"
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 import { debugLog } from '@/utils';
@@ -11,32 +13,34 @@ export default async function MainNavigationBar() {
       className="flex flex-wrap lg:flex-nowrap"
       style={{
         justifyContent: 'space-between',
-        backgroundColor: '#36C0E5',
+        // backgroundColor: '#36C0E5',
         height: 'min-content',
         alignItems: 'center',
-        padding: '5px 50px',
+        padding: '5px 100px',
         position: 'sticky',
         userSelect: 'none',
+        borderBottom: '2px solid #0e308fe8',
         top: 0,
       }}
     >
       <Link
         href={'/'}
         style={{
-          fontFamily: 'Times Roman',
+          color: '#0e308fe8',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
-          fontSize: '35px',
-          padding: '5px',
+          fontSize: '40px',
+          fontWeight: '650',
+          padding: '5px 75px',
         }}
       >
-        Prarmacy delivery system
+        Med-Kit
       </Link>
       <div className="flex flex-wrap items-center" style={{ gap: '10px' }}>
         <Link href={'/browse'} className="navLink">
           Browse
         </Link>
-        {session && session.user.custome_data.user_type == 'BUYER'
+        {session && session?.user?.custome_data?.user_type == 'BUYER'
           ? [
               <Link href={'/buyer/orders'} className="navLink" key={'b-orders'}>
                 Orders
@@ -50,7 +54,7 @@ export default async function MainNavigationBar() {
               </Link>,
             ]
           : null}
-        {session && session.user.custome_data.user_type == 'SELLER'
+        {session && session?.user?.custome_data.user_type == 'SELLER'
           ? [
               <Link
                 href={'/seller/orders'}
@@ -73,18 +77,6 @@ export default async function MainNavigationBar() {
             <Link href={'/user-request'} className="navLink" key={'request'}>
               User request
             </Link>,
-            <Link href={'/account'} className="navLink" key={'account'}>
-              Account
-              <span
-                style={{
-                  fontSize: '18px',
-                  fontWeight: 'bold',
-                }}
-              >
-                {' '}
-                - {session?.user?.custome_data?.user_type}
-              </span>
-            </Link>,
             <Link
               href={'/api/auth/signout?callbackUrl=/'}
               className="navLink"
@@ -92,6 +84,9 @@ export default async function MainNavigationBar() {
             >
               Sign out
             </Link>,
+            <Link href={'/account'} className="account" key={'account'}>
+            <Image src={acnt} alt='accnt'/> <h1 style={{fontSize: '1.5vw', marginBottom: '1px'}}>Account</h1>
+            </Link>
           ]
         ) : (
           <Link href={'/api/auth/signin'} className="navLink">

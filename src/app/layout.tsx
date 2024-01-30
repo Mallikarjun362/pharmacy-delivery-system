@@ -25,7 +25,7 @@ export default function RootLayout({
           height: '100vh',
           width: '100vw',
         }}
-      >
+      > 
         <AuthSessionProvider>
           <GlobalContextProvider>
             <MainNavigationBar />
