@@ -18,19 +18,41 @@
 }
 
 .navLink {
-  background-color: #0001;
+  background-color: rgba(245, 240, 240, 0.067);
+  border-color: #0e308fe8;
+  border-width: 2px;
   border-radius: 100px;
   align-items: center;
   padding: 5px 20px;
-  font-size: 22px;
-  color: #000a;
+  font-size: 21;
+  font-weight: 600;
+  color: #0e308fe8;
   display: flex;
   height: 100%;
 }
 
 .navLink:hover {
-  background-color: #0003;
+  background-color: rgba(123, 140, 187, 0.329);
   color: black;
+}
+
+.account {
+  background-color: rgba(245, 240, 240, 0.067);
+  border-color: #2A69C1;
+  border-width: 2px;
+  border-radius: 100px;
+  align-items: center;
+  padding: 5px 20px;
+  font-size: 21;
+  font-weight: 600;
+  color: #0e308fe8;
+  display: flex;
+  height: 100%;
+}
+
+.account:hover {
+  background-color: rgba(123, 140, 187, 0.329);
+  color: black; 
 }
 
 /* -------------- STANDARD FORM ---------------- */
@@ -74,4 +96,48 @@
 
 .standardForm select {
   padding: 5px;
+}
+ /*----Home Page ----*/
+
+ .home_img {
+  height: 95vh;
+  width: 50vw;
+ }
+
+
+ .first {
+  display: inline-block;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: left;
+}
+
+.order_button {
+  /* background-color: #597ad4e8; */
+  background: linear-gradient(to right, #2c59d3bb 50%, rgb(217, 219, 224) 50%);
+  border-radius: 100px;
+  box-shadow: rgba(44, 106, 187, 0.2) 0 -25px 18px -14px inset,rgba(44, 106, 187, 0.2) 0 1px 2px,rgba(44, 106, 187, 0.2) 0 2px 4px,rgba(44, 106, 187, 0.2) 0 4px 8px,rgba(44, 106, 187, 0.2) 0 8px 16px,rgba(44, 106, 187, 0.2) 0 16px 32px;
+  color: #0e308fe8;
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.order_button:hover {
+  box-shadow: rgba(35, 152, 219, 0.35) 0 -25px 18px -14px inset,rgba(44, 106, 187, 0.2) 0 1px 2px,rgba(44, 106, 187, 0.2) 0 2px 4px,rgba(44, 106, 187, 0.2) 0 4px 8px,rgba(44, 106, 187, 0.2) 0 8px 16px,rgba(44, 106, 187, 0.2) 0 16px 32px;
+  transform: scale(1.05) rotate(-1deg);
 }
