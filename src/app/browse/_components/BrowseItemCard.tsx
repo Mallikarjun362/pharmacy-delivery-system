@@ -65,10 +65,14 @@ export default function BrowseItemCard({
           style={{
             height: '5vw',
             width: '5vw',
+            margin: '20px',
           }}
         />
       </div>
-      <table>
+      <table
+          style={{
+            marginLeft: '40px',
+          }}>
         <tbody>
           <tr>
             <td>Title</td>
@@ -96,10 +100,34 @@ export default function BrowseItemCard({
         <button
           className=""
           onClick={() => add_item(item_details)}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            display: 'inline-flex',
+            color: '#0e308fe8',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            fontSize: '20px',
+            fontWeight: '650',
+            padding: '75px',
+          }}
         >
           ADD
         </button>
-        <button onClick={() => reduce_item(item_details)}>REDUCE</button>
+        <button 
+          onClick={() => reduce_item(item_details)}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            display: 'inline-flex',
+            color: '#0e308fe8',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            fontSize: '20px',
+            fontWeight: '650',
+            padding: '75px',
+          }}
+        >REDUCE</button>
       </div>
     </div>
   );

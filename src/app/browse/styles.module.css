@@ -21,6 +21,7 @@
   display: grid;
   width: 20vw;
   height: 20vw;
+  padding: 30px;
   border-radius: 20px;
   border-width: 2px;
 }
