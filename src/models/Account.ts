@@ -63,9 +63,9 @@ const account_schema = new Schema<IAccount>({
     latitude: SchemaTypes.Number,
 
     user_type: { type: SchemaTypes.String, enum: ["BUYER", "SELLER", "DISPATCHER", "ADMIN", "GENERAL"], default: "GENERAL" },
-    medical_history: [{ type: SchemaTypes.Buffer, ref: 'Prescription' }],
     joined_at: { type: SchemaTypes.Date, default: () => Date.now() },
     seller_owner: { type: SchemaTypes.ObjectId, ref: "Account" },
+    medical_history: [{ type: SchemaTypes.Buffer }],
     is_verified_by_admin: SchemaTypes.Boolean,
     last_field_update: SchemaTypes.Date,
     gst_number: SchemaTypes.String,

@@ -1,8 +1,8 @@
-import { getServerSession } from 'next-auth';
 import MedicineCreationForm from './_components/MedicineCreationForm';
 import { getMedicinesByMe } from './_functionality/ServerActions';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import MedicineSellerCard from './_components/MedicineSellerCard';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getServerSession } from 'next-auth';
 
 export default async function SellerCateloguePage() {
   const session = await getServerSession(authOptions);

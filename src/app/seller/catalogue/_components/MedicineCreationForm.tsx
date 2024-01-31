@@ -14,9 +14,12 @@ export default async function MedicineCreationForm() {
         await CatalogueItemActions.create({
           seller_db_id: formDate.get('seller_db_id')?.valueOf() as string,
           title: formDate.get('title')?.valueOf() as string,
-          price: formDate.get('price')?.valueOf() as number,
+          unit_price: formDate.get('unit_price')?.valueOf() as number,
           stock_count: formDate.get('stock_count')?.valueOf() as number,
           description: formDate.get('description')?.valueOf() as string,
+          is_prescription_required:
+            (formDate.get('is_prescription_required')?.valueOf() as string) ==
+            'YES',
         });
         revalidatePath('/');
       }}
@@ -30,7 +33,14 @@ export default async function MedicineCreationForm() {
       />
       <input type="text" name="title" placeholder="Title" required />
       <textarea name="description" placeholder="Description" />
-      <input type="number" name="price" placeholder="Price" required step={0.01} min={0} />
+      <input
+        type="number"
+        name="unit_price"
+        placeholder="Unit price (&#8377;)"
+        required
+        step={0.01}
+        min={0}
+      />
       <input
         type="number"
         name="stock_count"
@@ -39,7 +49,11 @@ export default async function MedicineCreationForm() {
         min={0}
         step={1}
       />
-      <div className='resetSubmitDiv'>
+      <select name="is_prescription_required" defaultValue={'YES'}>
+        <option value="YES">Prescription required</option>
+        <option value="NO">Prescription not required</option>
+      </select>
+      <div className="resetSubmitDiv">
         <input type="reset" value="Clear" />
         <input type="submit" value="Add medicine" />
       </div>

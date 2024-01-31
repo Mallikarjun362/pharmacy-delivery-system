@@ -4,8 +4,9 @@ import Prescription from "./Prescription";
 
 export interface IOrderItem {
     dosage_details: string,
+    unit_price: number,
+    quantity: number,
     title: string,
-    cost: number,
 };
 
 interface IAddress {

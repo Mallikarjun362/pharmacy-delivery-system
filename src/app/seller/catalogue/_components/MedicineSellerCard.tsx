@@ -33,7 +33,7 @@ export default function MedicineSellerCard({
     >
       <div>
         <h2 style={{ fontSize: '30px' }}>{medicine_details?.title}</h2>
-        <div>Price: {medicine_details?.price}</div>
+        <div>Price: {medicine_details?.unit_price}</div>
         <div>Count: {medicine_details?.stock_count}</div>
       </div>
       <br />
