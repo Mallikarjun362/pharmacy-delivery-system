@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import del_boy from "@/../../public/images/delivery_boy.png";
 import './globals.css';
+import Link from 'next/link';
 
 export default function Home() {
   return <main className="">
@@ -37,11 +38,13 @@ export default function Home() {
           </p>
         </div>
         <div >
+          <Link href={"/browse"}>
           <button className="order_button" role="button" style={{
               
               marginLeft: '50px',
               marginTop: '42px'
-          }}><h1 style={{fontSize:"1.5vw", fontWeight: '450', color: '#13171C'}}>Place Order </h1></button>
+          }}><h1 style={{fontSize:"1.5vw", fontWeight: '450', color: '#13171C'}} >Place Order </h1></button>
+          </Link>
         </div>
       </div>
     </div>
