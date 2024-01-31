@@ -12,7 +12,14 @@ export default async function SellerCateloguePage() {
   return (
     <main className="mainPage">
       <MedicineCreationForm />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div
+        style={{
+          flexDirection: 'column-reverse',
+          padding: '50px 0px',
+          display: 'flex',
+          gap: '20px',
+        }}
+      >
         {medicines_by_me.map((ele, idx) => (
           <MedicineSellerCard medicine_details={ele} key={idx} />
         ))}

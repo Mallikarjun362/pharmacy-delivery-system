@@ -1,6 +1,9 @@
 'use client';
 import { useGlobalContext } from '@/app/_context/store';
+import med from '@/../../public/images/pills.png';
+import styles from '../styles.module.css';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function BrowseItemCard({
   item_details,
@@ -45,12 +48,57 @@ export default function BrowseItemCard({
       });
     }
   };
+
   return (
-    <div>
-      <div>{JSON.stringify(item_details)}</div>
-      <div>{quantity}</div>
-      <div className="flex gap-5">
-        <button onClick={() => add_item(item_details)}>ADD</button>
+    <div className={`${styles.card}`}>
+      <div
+        style={{
+          borderBottom: '2px solid #D9DDE3',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Image
+          src={med}
+          alt="medicine"
+          style={{
+            height: '5vw',
+            width: '5vw',
+          }}
+        />
+      </div>
+      <table>
+        <tbody>
+          <tr>
+            <td>Title</td>
+            <td>{item_details?.title}</td>
+          </tr>
+          <tr>
+            <td>Unit price</td>
+            <td>{item_details?.unit_price}</td>
+          </tr>
+          <tr>
+            <td>Quantity</td>
+            <td>{quantity}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          display: 'flex',
+          width: '300px',
+          gap: '20px',
+        }}
+      >
+        <button
+          className=""
+          onClick={() => add_item(item_details)}
+        >
+          ADD
+        </button>
         <button onClick={() => reduce_item(item_details)}>REDUCE</button>
       </div>
     </div>
