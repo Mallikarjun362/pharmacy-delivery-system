@@ -12,6 +12,8 @@ interface ContextProps {
   setHoverContent: Dispatch<SetStateAction<any>>;
   currentUser: any;
   setCurrentUser: Dispatch<SetStateAction<any>>;
+  cart: any;
+  setCart: Dispatch<SetStateAction<any>>;
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -19,11 +21,14 @@ const GlobalContext = createContext<ContextProps>({
   setHoverContent: (): any => null,
   currentUser: null,
   setCurrentUser: (): any => null,
+  cart: {},
+  setCart: (): any => ({}),
 });
 
 export const GlobalContextProvider = ({ children }: { children: any }) => {
   const [hoverContent, setHoverContent] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [cart, setCart] = useState({});
   return (
     <GlobalContext.Provider
       value={{
@@ -31,6 +36,8 @@ export const GlobalContextProvider = ({ children }: { children: any }) => {
         setHoverContent,
         currentUser,
         setCurrentUser,
+        cart,
+        setCart,
       }}
     >
       {children}

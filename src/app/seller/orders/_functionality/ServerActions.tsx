@@ -1,12 +1,49 @@
-import Order from '@/models/Order';
+'use server';
+import Order, { IOrderItem } from '@/models/Order';
+import { revalidatePath } from 'next/cache';
 
 export const getOrdersReceived = async ({
   seller_db_id,
 }: {
   seller_db_id: string;
+}): Promise<Array<any>> => {
+  return JSON.parse(
+    JSON.stringify(
+      await Order.find({ seller: seller_db_id })
+        .select({ _id: 1, prescription: 1, buyer: 1 })
+        .populate({
+          path: 'prescription',
+          select: {
+            timestamp: 1,
+            title: 1,
+            _id: 1,
+          },
+        })
+        .populate({
+          path: 'buyer',
+          select: {
+            primary_email: 1,
+            _id: 1,
+          },
+        })
+        .lean()
+        .exec()
+    )
+  );
+};
+
+export const setOrderItems = async ({
+  order_db_id,
+  available_items,
+  non_available_items,
+}: {
+  order_db_id: string;
+  available_items: Array<IOrderItem>;
+  non_available_items: Array<IOrderItem>;
 }) => {
-  const result = (
-    await Order.find({ seller: seller_db_id }).select({ _id: 1 })
-  ).toJSON();
-  return result;
+  await Order.findByIdAndUpdate(order_db_id, {
+    available_items,
+    non_available_items,
+  }).exec();
+  return true;
 };

@@ -1,9 +1,9 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import acnt from "@/../../public/person.svg"
-import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]/route';
+import acnt from '@/../../public/person.svg';
+import { getServerSession } from 'next-auth';
 import { debugLog } from '@/utils';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default async function MainNavigationBar() {
   const session = await getServerSession(authOptions);
@@ -13,7 +13,6 @@ export default async function MainNavigationBar() {
       className="flex"
       style={{
         justifyContent: 'space-between',
-        // backgroundColor: '#36C0E5',
         display: 'inline-flex',
         height: 'min-content',
         alignItems: 'center',
@@ -46,6 +45,9 @@ export default async function MainNavigationBar() {
         </Link>
         {session && session?.user?.custome_data?.user_type == 'BUYER'
           ? [
+              <Link href={'/buyer/cart'} className="navLink" key={'b-cart'}>
+                Cart
+              </Link>,
               <Link href={'/buyer/orders'} className="navLink" key={'b-orders'}>
                 Orders
               </Link>,
@@ -60,7 +62,11 @@ export default async function MainNavigationBar() {
           : null}
         {session && session?.user?.custome_data.user_type == 'SELLER'
           ? [
-              <Link href={'/seller/orders'} className="navLink" key={'s-orders'}>
+              <Link
+                href={'/seller/orders'}
+                className="navLink"
+                key={'s-orders'}
+              >
                 Orders
               </Link>,
               <Link
@@ -84,9 +90,19 @@ export default async function MainNavigationBar() {
             >
               Sign out
             </Link>,
-            <Link href={'/account'} className="account" key={'account'}>
-            <Image src={acnt} alt='accnt'/> <h1 style={{fontSize: '1.5vw', marginBottom: '1px'}}>Account</h1>
-            </Link>
+            <Link
+              href={'/account'}
+              className="account flex items-center gap-2"
+              key={'account'}
+            >
+              <Image src={acnt} alt="accnt" />{' '}
+              <h1 style={{ fontSize: '1.5vw', marginBottom: '1px' }}>
+                Account
+              </h1>
+              <span className="text-lg">
+                {session?.user?.custome_data?.user_type}
+              </span>
+            </Link>,
           ]
         ) : (
           <Link href={'/api/auth/signin'} className="navLink">
