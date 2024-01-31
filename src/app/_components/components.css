@@ -6,6 +6,8 @@
     width: fit-content;
     padding: 10px 20px 10px 20px;
     border-radius: 40px;
+    border-width: 2px;
+    border-color: #0e308fe8;
 }
 
 .search_input {
@@ -14,4 +16,12 @@
 
 .search_input:focus {
     outline: none;
+}
+
+.card {
+    display: grid;
+    width: 20vw;
+    height: 20vw;
+    border-radius: 20px;
+    border-width: 2px;
 }
