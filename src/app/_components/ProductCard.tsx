@@ -11,7 +11,7 @@ export default async function Card() {
   return (
     <div className='card'>
         <div style={{
-            borderBottom: '2px solid #D9DDE3',
+            borderBottom: '2px solid #0e308fe8',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
