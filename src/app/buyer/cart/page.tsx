@@ -9,7 +9,7 @@ export default function CartPage() {
   const { cart } = useGlobalContext();
   const [is_prescription_required, setIsPrescriptionRequired] = useState(false);
   const [file, setFile] = useState<any>(null);
-  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [totalPrice, setTotalPrice] = useState<number>(10);
   useEffect(() => {
     let s = 0;
     for (let val of Object.values(cart)) {
@@ -45,23 +45,26 @@ export default function CartPage() {
       <div>Total price : &#8377; {totalPrice}</div>
       <button
         onClick={async () => {
-          if (is_prescription_required && !file)
-            return alert('Prescription required');
-          if (Object.keys(cart)?.length === 0) {
-            return alert('Cart is empty');
-          }
-          const formData = new FormData();
-          formData.append('file', file);
-          await placeOrderManual({
-            cart,
-            buyer_db_id: session?.data?.user?.custome_data.db_id,
-            seller_db_id: (Object.values(cart)[0] as any).seller_db_id,
-            prescription_file: file ? formData : null,
-          });
-          alert('Order confirmed successfully');
+          window.location.replace(`upi://pay?pa=9494248739@paytm&amp;pn=Mr Gaddey Hemanth Chowdary&amp;am=10&amp;mc=bdOMam96965720364044&amp;cu=INR;tr=20sssj9j3s8j38;tn=business_related_stuff`);
+
+          // if (is_prescription_required && !file)
+          //   return alert('Prescription required');
+          // if (Object.keys(cart)?.length === 0) {
+          //   return alert('Cart is empty');
+          // }
+          // const formData = new FormData();
+          // formData.append('file', file);
+          // await placeOrderManual({
+          //   cart,
+          //   buyer_db_id: session?.data?.user?.custome_data.db_id,
+          //   seller_db_id: (Object.values(cart)[0] as any).seller_db_id,
+          //   prescription_file: file ? formData : null,
+          // });
+          // alert('Order confirmed successfully');
+
         }}
       >
-        Place Order
+        Pay Rs. {totalPrice}
       </button>
     </main>
   );
