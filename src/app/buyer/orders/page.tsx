@@ -16,7 +16,7 @@ export default async function OrdersPage() {
       {orders_made.map((ele: any, idx) => (
         <BuyerOrderCard order_details={ele} key={idx} />
       ))}
-      <CartCard />
+      {/* <CartCard /> */}
     </main>
   );
 }

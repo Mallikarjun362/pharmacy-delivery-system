@@ -162,7 +162,7 @@ textarea {
 /*-----Browser-----*/
 
 .search {
-  margin-top: 8vh;
+  margin-top: 1px;
   display: flex;
   justify-content: center;
   align-items: center;

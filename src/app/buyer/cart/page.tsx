@@ -3,6 +3,7 @@ import { placeOrderManual } from './_functionality/ServerComponents';
 import { useGlobalContext } from '@/app/_context/store';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import CartCard from '@/app/_components/CartCard';
 
 function generateRandomString() {
   const alphanumericChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -80,9 +81,11 @@ export default function CartPage() {
       <div>
         <h2>Items :</h2>
         {Object.keys(cart).map((k, idx) => (
-          <div key={idx}>{JSON.stringify(cart[k])}</div>
+          <CartCard order_details={cart[k]}/>
+          // <div key={idx}>{JSON.stringify(cart[k])}</div>
         ))}
       </div>
+      {/* <CartCard /> */}
       {is_prescription_required ? (
         <input
           type="file"
