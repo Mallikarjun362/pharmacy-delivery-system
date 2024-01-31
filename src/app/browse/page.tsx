@@ -10,12 +10,27 @@ import '@/app/globals.css';
 
 export default function BrowsePage() {
   const [catalogueItems, setCatalogueItems] = useState<Array<any>>([]);
+  const [displayItems, setDisplayItems] = useState<Array<any>>([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const session = getSession();
   useEffect(() => {
     (async () => {
-      setCatalogueItems(await getAllMedicines());
+      const vals = await getAllMedicines();
+      setCatalogueItems(vals);
+      setDisplayItems(vals);
     })();
   }, []);
+  const searchItems = (term?: string) => {
+    if (!term) {
+      setDisplayItems(catalogueItems);
+      return;
+    }
+    setDisplayItems(
+      catalogueItems.filter(
+        (ele) => ele.title.includes(term) || term.includes(ele.title)
+      )
+    );
+  };
   return (
     <main className="mainPage" style={{ padding: '100px 10%' }}>
       <div className="search">
@@ -24,8 +39,15 @@ export default function BrowsePage() {
             placeholder="Search products..."
             title="Search bar"
             className={`${styles.search_input}`}
+            onChange={(e) => {
+              searchItems(e.target.value);
+              // setSearchTerm(e.target.value)
+            }}
           />
-          <button type="submit">
+          <button
+            type="submit"
+            // onClick={() => searchItems(searchTerm)}
+          >
             <Image
               src={search}
               alt="accnt"
@@ -48,7 +70,7 @@ export default function BrowsePage() {
           padding: '30px',
         }}
       >
-        {catalogueItems.map((item: any, idx: number) => (
+        {displayItems.map((item: any, idx: number) => (
           <BrowseItemCard item_details={item} key={idx} />
         ))}
       </div>

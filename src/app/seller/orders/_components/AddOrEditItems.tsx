@@ -2,28 +2,21 @@
 import { getPrescriptionImage } from '@/app/buyer/prescriptions/_functionality';
 import { getMedicinesByMe } from '../../catalogue/_functionality/ServerActions';
 import { useEffect, useState } from 'react';
-import { setOrderItems } from '../_functionality/ServerActions';
+import {
+  getOrderDetails,
+  setOrderItems,
+} from '../_functionality/ServerActions';
 
-const CartItem = ({
-  item,
-  bg,
-  removeItem,
-}: {
-  item: any;
-  bg: string;
-  removeItem: any;
-}) => (
-  <tr style={{ backgroundColor: bg }}>
-    <td>{item.title}</td>
-    <td>{item.dosage_details}</td>
-    <td>&#8377;{item.cost}</td>
-    <td>
-      <button onClick={() => removeItem(item?.temp_id, item?.is_available)}>
-        Remove
-      </button>
-    </td>
-  </tr>
-);
+const CartItem = ({ item, bg }: { item: any; bg: string }) => {
+  console.log(item);
+  return (
+    <tr style={{ backgroundColor: bg }}>
+      <td>{item.title}</td>
+      <td>{item.quantity}</td>
+      <td>&#8377;{item.unit_cost * item.quantity}</td>
+    </tr>
+  );
+};
 
 export default function AddOrEditItems({
   order_db_id,
@@ -34,43 +27,44 @@ export default function AddOrEditItems({
   seller_db_id: string;
   prescription_db_id: string;
 }) {
-  const [imageData, setImageData] = useState<any>('');
+  const [currentItem, setCurrentItem] = useState<any>({ title: '', price: 0 });
   const [nonAvaliableItems, setNonAvailableItems] = useState<Array<any>>([]);
   const [catalogueItems, setCatalogueItems] = useState<Array<any>>([]);
-  const [currentItem, setCurrentItem] = useState<any>({ title: '', price: 0 });
   const [avaliableItems, setAvailableItems] = useState<Array<any>>([]);
+  const [imageData, setImageData] = useState<any>('');
 
-  const save_changes = async () => {
-    await setOrderItems({
-      available_items: avaliableItems.map((item: any) => ({
-        dosage_details: item.dosage_details,
-        title: item.title,
-        cost: item.cost,
-      })),
-      non_available_items: nonAvaliableItems.map((item: any) => ({
-        dosage_details: item.dosage_details,
-        title: item.title,
-        cost: item.cost,
-      })),
-      order_db_id,
-    });
-  };
+  // const save_changes = async () => {
+  //   await setOrderItems({
+  //     available_items: avaliableItems.map((item: any) => ({
+  //       dosage_details: item.dosage_details,
+  //       title: item.title,
+  //       cost: item.cost,
+  //     })),
+  //     non_available_items: nonAvaliableItems.map((item: any) => ({
+  //       dosage_details: item.dosage_details,
+  //       title: item.title,
+  //       cost: item.cost,
+  //     })),
+  //     order_db_id,
+  //   });
+  // };
 
-  const removeItem = (temp_id: string, is_available: string) => {
-    if (is_available === 'YES') {
-      setAvailableItems((prev: Array<any>) =>
-        prev.filter((ele) => ele?.temp_id !== temp_id)
-      );
-    } else {
-      setNonAvailableItems((prev: Array<any>) =>
-        prev.filter((ele) => ele?.temp_id !== temp_id)
-      );
-    }
-  };
+  // const removeItem = (temp_id: string, is_available: string) => {
+  //   if (is_available === 'YES') {
+  //     setAvailableItems((prev: Array<any>) =>
+  //       prev.filter((ele) => ele?.temp_id !== temp_id)
+  //     );
+  //   } else {
+  //     setNonAvailableItems((prev: Array<any>) =>
+  //       prev.filter((ele) => ele?.temp_id !== temp_id)
+  //     );
+  //   }
+  // };
   useEffect(() => {
     (async () => {
-      setCatalogueItems(await getMedicinesByMe({ seller_db_id }));
+      // setCatalogueItems(await getMedicinesByMe({ seller_db_id }));
       setImageData(await getPrescriptionImage(prescription_db_id));
+      setAvailableItems((await getOrderDetails(order_db_id)).available_items);
       // setNonAvailableItems([]);
       // setAvailableItems([]);
     })();
@@ -92,20 +86,17 @@ export default function AddOrEditItems({
         <thead>
           <tr>
             <td>Title</td>
-            <td>Dosage details</td>
+            <td>Quantity</td>
             <td>Price</td>
           </tr>
         </thead>
         <tbody>
           {avaliableItems.map((ele) => (
-            <CartItem item={ele} bg="lightgreen" removeItem={removeItem} />
-          ))}
-          {nonAvaliableItems.map((ele) => (
-            <CartItem item={ele} bg="#F009" removeItem={removeItem} />
+            <CartItem item={ele} bg="lightgreen" />
           ))}
         </tbody>
       </table>
-      <form
+      {/* <form
         className="standardForm"
         onReset={() => setCurrentItem({ title: '', price: 0 })}
         onSubmit={(e) => {
@@ -165,7 +156,7 @@ export default function AddOrEditItems({
           <input type="reset" value="Clear" />
           <input type="submit" value="Add medicine" />
         </div>
-      </form>
+      </form> */}
       <table className="catalogueItems" style={{ width: '100%' }}>
         <thead>
           <tr>
@@ -193,10 +184,15 @@ export default function AddOrEditItems({
         </tbody>
       </table>
       <div className="flex p-2 gap-4 mt-12">
-        <button className="bg-orange-500 p-2 flex-1">
-          Request confirmation
+        <button
+          style={{
+            backgroundColor: 'lightseagreen',
+            padding: '10px 20px',
+            borderRadius: '100px',
+          }}
+        >
+          Order sent
         </button>
-        <button className="bg-green-300 p-2 flex-1">Save</button>
       </div>
     </div>
   );

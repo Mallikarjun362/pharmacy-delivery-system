@@ -1,5 +1,6 @@
 'use server';
-import Order, { IOrderItem } from '@/models/Order';
+import Order, { IOrderItem, OrderActions } from '@/models/Order';
+import { toJSON } from '@/utils';
 import { revalidatePath } from 'next/cache';
 
 export const getOrdersReceived = async ({
@@ -31,6 +32,9 @@ export const getOrdersReceived = async ({
     )
   );
 };
+
+export const getOrderDetails = async (order_db_id: string) =>
+  toJSON(await Order.findById(order_db_id).select({ available_items: 1 }).lean().exec());
 
 export const setOrderItems = async ({
   order_db_id,
