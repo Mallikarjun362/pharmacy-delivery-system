@@ -67,8 +67,9 @@
   color: gray;
   right: 0;
   top: 0;
-  max-width: 80vw;
   width: 100px;
+  text-wrap: nowrap;
+  width: min-content;
 }
 
 .requestMain * {
@@ -103,7 +104,6 @@
 .requestMain form {
   flex-direction: column;
   margin: 20px 0;
-  /* display: none; */
   display: flex;
   gap: 20px;
   height: 0;

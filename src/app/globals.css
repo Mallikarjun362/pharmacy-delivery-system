@@ -18,6 +18,18 @@
   background-color: #00000005;
 }
 
+@media all and (max-width: 1000px) {
+  .mainPage {
+    padding: 50px 10%;
+  }
+}
+
+@media all and (max-width: 600px) {
+  .mainPage {
+    padding: 50px 5%;
+  }
+}
+
 .navLink {
   background-color: rgba(245, 240, 240, 0.067);
   border-color: #0e308fe8;
@@ -61,11 +73,13 @@
 
 .standardForm {
   flex-direction: column;
+  overflow: hidden;
   font-size: 20px;
   color: black;
   display: flex;
   padding: 30px;
   gap: 10px;
+  max-width: 80vw;
 }
 
 .standardForm input,

@@ -26,10 +26,8 @@ export interface IAccount {
 
     user_type: "BUYER" | "SELLER" | "DISPATCHER" | "ADMIN" | "GENERAL",
     notifications: Array<INotification>,
-    is_verified_by_admin: boolean,
     proof_documents: Array<any>,
     medical_history: Array<any>,
-    last_field_update: Date,
     gst_number: string,
     field_update: any,
     seller_owner: any,
@@ -66,10 +64,9 @@ const account_schema = new Schema<IAccount>({
 
     user_type: { type: SchemaTypes.String, enum: ["BUYER", "SELLER", "DISPATCHER", "ADMIN", "GENERAL"], default: "GENERAL" },
     joined_at: { type: SchemaTypes.Date, default: () => Date.now() },
+    medical_history: [{ type: SchemaTypes.ObjectId, ref: "UserFile" }],
+    proof_documents: [{ type: SchemaTypes.ObjectId, ref: "UserFile" }],
     seller_owner: { type: SchemaTypes.ObjectId, ref: "Account" },
-    medical_history: [{ type: SchemaTypes.Buffer }],
-    is_verified_by_admin: SchemaTypes.Boolean,
-    last_field_update: SchemaTypes.Date,
     gst_number: SchemaTypes.String,
     upi_id: SchemaTypes.String,
 
@@ -87,11 +84,6 @@ const account_schema = new Schema<IAccount>({
     notifications: [{
         message: SchemaTypes.String,
         timestamp: SchemaTypes.Date,
-        title: SchemaTypes.String,
-    }],
-    proof_documents: [{
-        file_type: SchemaTypes.String,
-        document: SchemaTypes.Buffer,
         title: SchemaTypes.String,
     }],
 });
@@ -112,7 +104,6 @@ interface IAccountActions {
     getUserTypeByEmail(primary_email: string): Promise<string | null>,
     getUserRefAndTypeIdByEmail(primary_email: string): Promise<any>,
     getUserDetailsMini(db_id: string): Promise<any>,
-    getUserDetailsFull(db_id: string): Promise<any>,
 }
 
 export const AccountActions: IAccountActions = {
@@ -144,15 +135,6 @@ export const AccountActions: IAccountActions = {
             last_name: 1,
             user_type: 1,
             _id: 1,
-        }).lean().exec();
-    },
-
-    async getUserDetailsFull(db_id) {
-        return await Account.findById(db_id).select({
-            is_verified_by_admin: 1, last_field_update: 1, whatsapp_number: 1, telegram_number: 1,
-            primary_email: 1, aadhar_number: 1, date_of_birth: 1, notifications: 1, phone_number: 1,
-            blood_group: 1, father_name: 1, student_id: 1, first_name: 1, last_name: 1, user_type: 1,
-            address: 1, gender: 1, upi_id: 1, _id: 1,
         }).lean().exec();
     },
 }

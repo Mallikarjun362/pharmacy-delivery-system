@@ -7,12 +7,17 @@ const DisplaykeyValue = ({
   v: string | number | Date;
   btns?: Array<any>;
 }) => (
-  <tr
-    style={{
-      width: '100%',
-    }}
-  >
-    <td style={{ fontWeight: '500', userSelect: 'none', width: '30%' }}>{k}</td>
+  <tr>
+    <td
+      style={{
+        fontWeight: '500',
+        userSelect: 'none',
+        width: '25%',
+        textWrap: 'nowrap',
+      }}
+    >
+      {k}
+    </td>
     <td style={{ userSelect: 'none', color: 'gray' }}>:</td>
     <td>{v?.toString()}</td>
     <td

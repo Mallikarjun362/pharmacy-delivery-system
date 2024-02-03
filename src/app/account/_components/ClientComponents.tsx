@@ -3,24 +3,6 @@ import { changeUserType } from '../_functionality/ServerActions';
 import { useGlobalContext } from '@/app/_context/store';
 import DisplaykeyValue from './DisplayKeyValue';
 
-export const HoverButtom = ({ hoverContent, title, style }: any) => {
-  const { setHoverContent } = useGlobalContext();
-  return (
-    <button
-      style={{
-        backgroundColor: '#0002',
-        height: 'min-content',
-        borderRadius: '50px',
-        padding: '5px 15px',
-        ...style,
-      }}
-      onClick={() => setHoverContent(hoverContent)}
-    >
-      {title}
-    </button>
-  );
-};
-
 export const RowEditButton = ({
   bg = '#0002',
   text,

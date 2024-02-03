@@ -1,7 +1,16 @@
-import { HoverButtom } from '../_components/ClientComponents';
+import HoverTriggerButton from '@/app/_components/HoverTriggerButton';
+import { getUserDocuments } from '../_functionality/ServerActions';
+import AddDocumentForm from '../_components/AddDocumentForm';
+import DisplayFile from '@/app/_components/DisplayFile';
+import { IUserFile } from '@/models/UserFile';
 import styles from '../styles.module.css';
+import { format } from 'date-fns';
 
-export default function ProofDocumentSection() {
+export default async function ProofDocumentSection({
+  userDetails,
+}: {
+  userDetails: any;
+}) {
   return (
     <div className={`${styles.infoSection}`}>
       <h1>Documents</h1>
@@ -13,10 +22,40 @@ export default function ProofDocumentSection() {
         }}
       >
         <h3>Medical history</h3>
-        <HoverButtom hoverContent={'Add'} title="Add" />
+        <HoverTriggerButton
+          hoverContent={<AddDocumentForm docType="MEDICAL" />}
+          title="Add"
+        />
       </div>
       <table className={`${styles.infoTable}`}>
-        <tbody></tbody>
+        <tbody>
+          {userDetails?.medical_history?.map((ele: any, idx: number) => (
+            <tr key={idx}>
+              <td>{ele.title}</td>
+              <td>{format(ele.timestamp, 'd MMM / yyyy')}</td>
+              <td
+                style={{
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  padding: '10px',
+                  display: 'flex',
+                  gap: '10px',
+                }}
+              >
+                <HoverTriggerButton
+                  buttonStyle={{
+                    fontSize: '14px',
+                    padding: '2px 10px',
+                    background: 'lightgreen',
+                  }}
+                  hoverContent={<DisplayFile file_db_id={(ele as any)._id} />}
+                  title="View file"
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
       <div
         style={{
@@ -26,7 +65,10 @@ export default function ProofDocumentSection() {
         }}
       >
         <h3>Verification documents</h3>
-        <HoverButtom hoverContent={'Add'} title="Add" />
+        <HoverTriggerButton
+          hoverContent={<AddDocumentForm docType="PROOF" />}
+          title="Add"
+        />
       </div>
       <table className={`${styles.infoTable}`}>
         <tbody></tbody>

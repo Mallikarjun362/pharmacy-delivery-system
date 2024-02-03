@@ -3,18 +3,26 @@ import { useGlobalContext } from '../_context/store';
 import { CSSProperties } from 'react';
 
 export default function HoverTriggerButton({
-  the_component = 'CONTENT',
-  txt,
-  button_style = {},
+  hoverContent = 'CONTENT',
+  buttonStyle = {},
+  title,
 }: {
-  button_style?: CSSProperties;
-  the_component?: any;
-  txt: string;
+  buttonStyle?: CSSProperties;
+  hoverContent?: any;
+  title: string;
 }) {
   const { setHoverContent } = useGlobalContext();
   return (
-    <button style={button_style} onClick={() => setHoverContent(the_component)}>
-      {txt}
+    <button
+      style={{
+        backgroundColor: '#0002',
+        borderRadius: '100px',
+        padding: '5px 20px',
+        ...buttonStyle,
+      }}
+      onClick={() => setHoverContent(hoverContent)}
+    >
+      {title}
     </button>
   );
 }

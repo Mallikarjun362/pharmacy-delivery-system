@@ -5,8 +5,8 @@ const admin_restricted = ["/account/admin"];
 
 export default withAuth(
     function middleware(request: NextRequestWithAuth) {
-        const pathName = request.nextUrl.pathname;
         const token = request.nextauth.token;
+        const pathName = request.nextUrl.pathname;
         // ONLY ADMIN
         if (admin_restricted.includes(pathName) && token?.custome_data?.user_type !== "ADMIN") {
             return NextResponse.rewrite(new URL("/denied", request.url))

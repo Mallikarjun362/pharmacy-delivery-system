@@ -26,14 +26,13 @@ export default function HoverComponent() {
           overflowX: 'hidden',
           overflowY: 'scroll',
           minHeight: '400px',
-          minWidth: '400px',
           maxHeight: '80%',
-          padding: '10px',
-          maxWidth: '80%',
+          padding: '5px',
+          width: 'min-content',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'end' }}>
-          <button onClick={() => setHoverContent(null)}>
+          <button onClick={() => setHoverContent(null)} style={{margin:"20px"}}>
             <RxCross2
               className="hover:bg-red-300"
               style={{

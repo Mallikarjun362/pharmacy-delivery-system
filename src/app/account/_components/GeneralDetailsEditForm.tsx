@@ -1,33 +1,32 @@
 'use client';
 import { useGlobalContext } from '@/app/_context/store';
 import { useSession } from 'next-auth/react';
-import { useState, useEffect } from 'react';
+import { useState, } from 'react';
 import {
-  IGeneralAccountDetails,
-  getGeneralAccountDetails,
-  setGeneralAccountDetails,
+  IAccountDetails,
+  setAccountDetails,
 } from '../_functionality/ServerActions';
 
-export default function GeneralDetailsEditForm() {
+export default function GeneralDetailsEditForm({
+  userDetails,
+}: {
+  userDetails: IAccountDetails;
+}) {
   const { setHoverContent } = useGlobalContext();
-  const [userDetails, setUserDetails] = useState<IGeneralAccountDetails | any>({});
+  const session = useSession();
   const [gender, setGender] = useState('');
-  const userDbId = useSession().data?.user?.custome_data?.db_id;
-  useEffect(() => {
-    (async () => {
-      const user = userDbId ? await getGeneralAccountDetails(userDbId) : null;
-      setUserDetails(user);
-      setGender(user?.gender || '');
-    })();
-  }, []);
+  const userDbId = session.data?.user?.custome_data?.db_id;
+  const userType = session.data?.user?.custome_data?.user_type;
   if (!userDbId) return null;
+
   return (
     <form
       className="standardForm"
       action={async (formData: FormData) => {
-        await setGeneralAccountDetails(formData);
+        await setAccountDetails(formData);
         setHoverContent(null);
       }}
+      style={{ width: '600px', maxWidth: '80vw' }}
     >
       <h1>General Details :</h1>
       <input
@@ -112,6 +111,35 @@ export default function GeneralDetailsEditForm() {
         placeholder="City"
         defaultValue={userDetails?.address?.city}
       />
+      {userType === 'GENERAL' || userType === 'ADMIN' ? (
+        <>
+          <h1>Important details :</h1>
+          <input
+            type="number"
+            name="student_id"
+            placeholder="IIT bhilai Id"
+            defaultValue={userDetails?.student_id}
+          />
+          <input
+            type="number"
+            name="aadhar_number"
+            placeholder="Aadhar number"
+            defaultValue={userDetails?.aadhar_number}
+          />
+          <input
+            type="text"
+            name="blood_group"
+            placeholder="Blood group"
+            defaultValue={userDetails?.blood_group}
+          />
+          <input
+            type="date"
+            name="date_of_birth"
+            placeholder="Date of birth"
+            defaultValue={userDetails?.date_of_birth?.toISOString()}
+          />
+        </>
+      ) : null}
       <input type="submit" value="Update" />
     </form>
   );

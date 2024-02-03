@@ -1,5 +1,48 @@
+.infoSection {
+  box-shadow: 0px 0px 15px 0px #0001;
+  border: 2px solid #0004;
+  border-radius: 15px;
+  font-size: 22px;
+  padding: 30px;
+}
+
+.infoSection h1,
+.infoSection h3 {
+  margin: 20px 0;
+}
+
+.infoSection h1 {
+  font-size: 40px;
+}
+
+.infoSection h3 {
+  font-size: 30px;
+}
+
+/* ---------------------------------------------------------------- */
+
+.infoTable {
+  border: 2px solid #0002;
+  max-width: 100%;
+  width: 150vw;
+}
+
+.infoTable td {
+  padding: 5px 10px;
+}
+
+.infoTable tr:nth-child(odd) {
+  background-color: #0000000A;
+}
+
+.infoTable tr:hover {
+  background-color: #5ef8f733;
+}
+
+/* ---------------------------------------------------- */
+
 .notification {
-  background-color: #F5DEBBAA;
+  background-color: #f5debbaa;
   border-radius: 10px;
   font-size: 18px;
   color: #0009;
@@ -9,16 +52,23 @@
   align-items: center;
   gap: 10px;
 }
-.notification b{
+
+.notification b {
   font-weight: 500;
   padding: 0 10px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  max-width: 100%;
+  width: 100%;
 }
 
 /* ---------------------------------------- */
 .basicForm {
   flex-direction: column;
   padding: 20px;
-  color: white;
+  color: red;
   display: flex;
   width: 100%;
   gap: 5px;
@@ -103,45 +153,4 @@
 
 .basicForm option:disabled {
   color: #fff7;
-}
-
-/* ---------------------------------------------------------------- */
-.infoTable {
-  border: 2px solid #0002;
-  width: 100%;
-}
-
-.infoTable td:first-child {
-  padding: 5px 10px;
-}
-
-.infoTable tr:nth-child(odd) {
-  background-color: #fff9;
-}
-
-.infoTable tr:hover {
-  background-color: #5ef8f733;
-}
-
-/* ---------------------------------------------------------------- */
-.infoSection {
-  box-shadow: 0px 0px 15px 0px #0001;
-  border: 2px solid #0004;
-  border-radius: 15px;
-  font-size: 22px;
-  padding: 30px;
-}
-
-.infoSection h1,
-.infoSection h3 {
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-.infoSection h1 {
-  font-size: 40px;
-}
-
-.infoSection h3 {
-  font-size: 30px;
 }
