@@ -1,8 +1,7 @@
 'use client';
+import { changeUserType } from '../_functionality/ServerActions';
 import { useGlobalContext } from '@/app/_context/store';
 import DisplaykeyValue from './DisplayKeyValue';
-import { UserRequestActions } from '@/models/UserRequest';
-import { changeUserType } from '../_functionality';
 
 export const HoverButtom = ({ hoverContent, title, style }: any) => {
   const { setHoverContent } = useGlobalContext();
@@ -24,65 +23,65 @@ export const HoverButtom = ({ hoverContent, title, style }: any) => {
 
 export const RowEditButton = ({
   bg = '#0002',
+  text,
   cb,
-  s,
 }: {
+  text: string;
   bg: string;
-  s: string;
   cb: any;
 }) => (
   <button
     key={2}
     style={{
-      backgroundColor: bg,
-      fontSize: '15px',
       borderRadius: '50px',
+      backgroundColor: bg,
       padding: '2px 10px',
+      fontSize: '15px',
     }}
     onClick={cb}
   >
-    {s}
+    {text}
   </button>
 );
 
-export const InfoRowUserType = ({ user_details }: any) => (
+export const InfoRowUserType = ({ userDetails }: any) => (
   <DisplaykeyValue
     k="User type"
-    v={user_details?.user_type}
+    v={userDetails?.user_type}
     btns={
-      user_details?.user_type === 'GENERAL'
+      userDetails?.user_type === 'GENERAL'
         ? [
             <RowEditButton
               bg="cyan"
               cb={() =>
                 changeUserType({
-                  email: user_details.primary_email,
+                  email: userDetails.primary_email,
                   to_user_type: 'BUYER',
                 })
               }
-              s="Buyer"
+              text="Buyer"
               key={0}
             />,
             <RowEditButton
               bg="#0F07"
               cb={() =>
                 changeUserType({
-                  email: user_details.primary_email,
+                  email: userDetails.primary_email,
                   to_user_type: 'SELLER',
                 })
               }
-              s="Seller"
+              text="Seller"
               key={1}
             />,
             <RowEditButton
               bg="orange"
               cb={() =>
                 changeUserType({
-                  email: user_details.primary_email,
+                  email: userDetails.primary_email,
                   to_user_type: 'DISPATCHER',
                 })
               }
-              s="Dispatcher"
+              text="Dispatcher"
               key={2}
             />,
           ]

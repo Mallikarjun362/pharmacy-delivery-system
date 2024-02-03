@@ -1,5 +1,5 @@
-import { MONGODB_URI } from "@/utils/Constants";
 import mongoose, { Schema, SchemaTypes } from "mongoose";
+import { MONGODB_URI } from "@/utils/Constants";
 import Prescription from "./Prescription";
 
 export interface IOrderItem {

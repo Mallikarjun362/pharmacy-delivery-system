@@ -14,6 +14,8 @@ interface ContextProps {
   setCurrentUser: Dispatch<SetStateAction<any>>;
   cart: any;
   setCart: Dispatch<SetStateAction<any>>;
+  cacheReqReceivedDone: [];
+  setCacheReqReceivedDone: Dispatch<SetStateAction<Array<any>>>;
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -23,12 +25,15 @@ const GlobalContext = createContext<ContextProps>({
   setCurrentUser: (): any => null,
   cart: {},
   setCart: (): any => ({}),
+  cacheReqReceivedDone: [],
+  setCacheReqReceivedDone: (): any => [],
 });
 
 export const GlobalContextProvider = ({ children }: { children: any }) => {
   const [hoverContent, setHoverContent] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [cart, setCart] = useState({});
+  const [cacheReqReceivedDone, setCacheReqReceivedDone] = useState<any>([]);
   return (
     <GlobalContext.Provider
       value={{
@@ -38,6 +43,8 @@ export const GlobalContextProvider = ({ children }: { children: any }) => {
         setCurrentUser,
         cart,
         setCart,
+        cacheReqReceivedDone,
+        setCacheReqReceivedDone,
       }}
     >
       {children}

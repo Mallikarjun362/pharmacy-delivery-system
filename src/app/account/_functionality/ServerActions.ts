@@ -1,7 +1,8 @@
 'use server'
-import Account from "@/models/Account"
 import { UserRequestActions } from "@/models/UserRequest";
 import { revalidatePath } from "next/cache";
+import Account, { AccountType } from "@/models/Account"
+import { toJSON } from "@/utils";
 
 export interface IGeneralAccountDetails {
     telegram_number: string, whatsapp_number: string, phone_number: string,
@@ -9,12 +10,14 @@ export interface IGeneralAccountDetails {
     upi_id: string, gender: string, primary_email: string
 }
 
-export const getGeneralAccountDetails = async (db_id: string): Promise<IGeneralAccountDetails> => await Account
-    .findById(db_id).select({
-        telegram_number: 1, whatsapp_number: 1, phone_number: 1,
-        father_name: 1, first_name: 1, last_name: 1,
-        upi_id: 1, gender: 1, primary_email: 1, address: 1
-    }).lean().exec().then((data: any) => ({ ...data, _id: data._id.toString() }));
+export const getGeneralAccountDetails = async (db_id: string): Promise<IGeneralAccountDetails> => toJSON(
+    await Account
+        .findById(db_id).select({
+            telegram_number: 1, whatsapp_number: 1, phone_number: 1,
+            upi_id: 1, gender: 1, primary_email: 1, address: 1,
+            father_name: 1, first_name: 1, last_name: 1,
+        }).lean().exec()
+);
 
 export const setGeneralAccountDetails = async (formData: FormData) => {
     await Account.findByIdAndUpdate(formData.get('db_id'), {
@@ -27,17 +30,17 @@ export const setGeneralAccountDetails = async (formData: FormData) => {
         upi_id: formData.get('upi_id'),
         gender: formData.get('gender'),
         address: {
-            building: formData.get('building'),
-            city: formData.get('city'),
             additional_details: formData.get('additional_details'),
             landmarks: formData.get('landmarks'),
+            building: formData.get('building'),
+            city: formData.get('city'),
         },
     });
     revalidatePath("/");
 }
 
-export const changeUserType = async ({ email, to_user_type }: { email: string, to_user_type: string }) => {
-    await UserRequestActions.changeUserType.create({
+export const changeUserType = async ({ email, to_user_type }: { email: string, to_user_type: AccountType }) => {
+    await UserRequestActions.CHANGE_USER_TYPE.create({
         from_user: email,
         to_user_type
     });

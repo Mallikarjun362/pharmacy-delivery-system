@@ -7,7 +7,6 @@ import Link from 'next/link';
 
 export default async function MainNavigationBar() {
   const session = await getServerSession(authOptions);
-  debugLog('NAV BAR', session);
   return (
     <div
       className="flex"
@@ -15,11 +14,14 @@ export default async function MainNavigationBar() {
         justifyContent: 'space-between',
         display: 'inline-flex',
         height: 'min-content',
+        minHeight: '80px',
         alignItems: 'center',
         padding: '5px 100px',
         position: 'sticky',
         userSelect: 'none',
         borderBottom: '2px solid #0e308fe8',
+        overflow: 'hidden',
+        width: '100vw',
         top: 0,
       }}
     >
@@ -39,7 +41,15 @@ export default async function MainNavigationBar() {
       >
         Med-Kit
       </Link>
-      <div className="" style={{ gap: '10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div
+        className=""
+        style={{
+          gap: '10px',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <Link href={'/browse'} className="navLink">
           Browse
         </Link>
@@ -96,7 +106,12 @@ export default async function MainNavigationBar() {
               key={'account'}
             >
               <Image src={acnt} alt="accnt" />{' '}
-              <h1 style={{ fontSize: '1.5vw', marginBottom: '1px' }}>
+              <h1
+                style={{
+                  margin: '0 7px',
+                  fontSize: '1.5vw',
+                }}
+              >
                 Account
               </h1>
               <span className="text-lg">

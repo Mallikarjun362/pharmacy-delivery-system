@@ -13,3 +13,13 @@ declare module "next-auth" {
         }
     }
 }
+
+declare module 'next-auth/jwt' {
+    interface JWT {
+        custome_data?: {
+            user_type: string,
+            db_id: string,
+        };
+    }
+}
+

@@ -1,6 +1,5 @@
-import { debugLog } from "@/utils";
-import { MONGODB_URI } from "@/utils/Constants";
 import mongoose, { Schema, SchemaTypes } from "mongoose";
+import { MONGODB_URI } from "@/utils/Constants";
 
 export interface ICatalogueItem {
     is_prescription_required: boolean,
@@ -31,7 +30,7 @@ export default CatalogueItem;
 
 interface ICatalogueItemActions {
     create(props: { seller_db_id: string, title: string, unit_price: number, stock_count?: number, description: string, is_prescription_required?: boolean }): Promise<boolean>,
-    delete(_id: string): Promise<boolean>,
+    delete(db_id: string): Promise<boolean>,
 };
 
 export const CatalogueItemActions: ICatalogueItemActions = {
@@ -40,9 +39,8 @@ export const CatalogueItemActions: ICatalogueItemActions = {
         await CatalogueItem.create({ seller: seller_db_id, unit_price, title, stock_count, description, is_prescription_required });
         return true;
     },
-    async delete(_id) {
-        console.log("-----------------DELETE-------------------")
-        await CatalogueItem.findByIdAndDelete(_id);
+    async delete(db_id) {
+        await CatalogueItem.findByIdAndDelete(db_id);
         return true;
     },
 };

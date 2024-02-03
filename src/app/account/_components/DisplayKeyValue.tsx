@@ -10,7 +10,6 @@ const DisplaykeyValue = ({
   <tr
     style={{
       width: '100%',
-      margin: '2px',
     }}
   >
     <td style={{ fontWeight: '500', userSelect: 'none', width: '30%' }}>{k}</td>

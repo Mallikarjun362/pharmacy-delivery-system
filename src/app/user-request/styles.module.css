@@ -1,0 +1,146 @@
+.requestMainPage {
+  padding: 50px 10%;
+  display: flex;
+  gap: 50px;
+  flex: 1;
+  padding-bottom: 200px;
+}
+
+.requestMainPage h1 {
+  margin-bottom: 10px;
+  font-size: 25px;
+}
+
+/* ---------------------------------------------------- */
+.gridContainer {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: 220px;
+  align-items: start;
+  display: grid;
+  gap: 15px 15px;
+}
+
+.gridContainer * {
+  animation-duration: 100ms;
+}
+
+/* Request Sent Styling */
+
+.requestMain {
+  border-radius: 10px;
+  position: relative;
+  padding: 15px;
+}
+
+/* -------------------------------------------------------- */
+
+.requestMain:hover {
+  z-index: 1;
+  box-shadow: 0 0 10px 10px #0003;
+  scale: 1.05;
+}
+.requestMain:hover .requestBody,
+.requestMain:focus-within .requestBody {
+  overflow-y: scroll;
+  height: 100px;
+}
+
+.requestMain:hover form,
+.requestMain:focus-within form {
+  height: 100px;
+}
+
+/* ------------------------------------------ */
+
+.requestMain:focus-within {
+  z-index: 1;
+  box-shadow: 0 0 10px 10px #0003;
+  scale: 1.2;
+}
+
+/* -------------------------------------------------------- */
+
+.requestDate {
+  position: absolute;
+  font-weight: 500;
+  padding: 10px;
+  color: gray;
+  right: 0;
+  top: 0;
+  max-width: 80vw;
+  width: 100px;
+}
+
+.requestMain * {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.requestStatus {
+  font-weight: bold;
+  user-select: none;
+  font-size: 20px;
+  right: 10;
+  top: 6;
+}
+
+.requestEmail {
+  font-family: 'Courier New', Courier, monospace;
+  align-items: center;
+  font-size: 18px;
+  color: #0009;
+  display: flex;
+  gap: 10px;
+}
+
+.requestBody {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: gray;
+  height: 30px;
+}
+
+.requestMain form {
+  flex-direction: column;
+  margin: 20px 0;
+  /* display: none; */
+  display: flex;
+  gap: 20px;
+  height: 0;
+}
+.requestMain form * {
+  flex: 1;
+}
+
+.requestMain form div {
+  display: flex;
+  gap: 20px;
+}
+
+.requestMain form div * {
+  flex: 1;
+}
+
+.requestMain input {
+  background-color: #0002;
+  transition-duration: 0ms;
+  border-radius: 5px;
+  padding: 0 10px;
+  font-size: 20px;
+  outline: none;
+}
+
+.requestMain input[name='accept'] {
+  background-color: lightgreen;
+  cursor: pointer;
+}
+
+.requestMain input[name='reject'] {
+  background-color: lightcoral;
+  cursor: pointer;
+}
+
+.requestMain input:hover,
+.requestMain input:focus {
+  border: 1px solid black;
+}

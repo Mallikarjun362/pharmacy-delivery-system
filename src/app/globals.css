@@ -10,10 +10,12 @@
   flex-direction: column;
   overflow-y: scroll;
   padding: 50px 20%;
+  display: flex;
   width: 100%;
   gap: 50px;
   flex: 1;
   padding-bottom: 200px;
+  background-color: #00000005;
 }
 
 .navLink {
@@ -28,6 +30,7 @@
   color: #0e308fe8;
   display: inline-flex;
   height: 100%;
+  text-wrap: nowrap;
 }
 
 .navLink:hover {
@@ -37,7 +40,7 @@
 
 .account {
   background-color: rgba(245, 240, 240, 0.067);
-  border-color: #2A69C1;
+  border-color: #2a69c1;
   border-width: 2px;
   border-radius: 100px;
   align-items: center;
@@ -51,27 +54,27 @@
 
 .account:hover {
   background-color: rgba(123, 140, 187, 0.329);
-  color: black; 
+  color: black;
 }
 
 /* -------------- STANDARD FORM ---------------- */
 
 .standardForm {
   flex-direction: column;
-  min-width: 600px;
   font-size: 20px;
-  max-width: 100%;
   color: black;
   display: flex;
   padding: 30px;
-  width: 100%;
   gap: 10px;
 }
 
 .standardForm input,
-textarea {
+.standardForm textarea,
+.standardForm select,
+.standardForm option {
+  background-color: #0001;
   border-radius: 5px;
-  padding: 10px;
+  padding: 15px;
   width: 100%;
 }
 .standardForm .resetSubmitDiv {
@@ -91,8 +94,7 @@ textarea {
 .standardForm input[type='reset'] {
   background-color: lightgreen;
   border: 2px solid transparent;
-  margin-bottom: 20px;
-  margin-top: 50px;
+  margin: 20px 0;
   cursor: pointer;
   outline: none;
   padding: 5px;
@@ -104,7 +106,7 @@ textarea {
 }
 
 .standardForm input[type='submit']:hover,
-.standardForm input[type='submit']:focus ,
+.standardForm input[type='submit']:focus,
 .standardForm input[type='reset']:hover,
 .standardForm input[type='reset']:focus {
   border-color: black;
@@ -114,15 +116,14 @@ textarea {
 .standardForm select {
   padding: 5px;
 }
- /*----Home Page ----*/
+/*----Home Page ----*/
 
- .home_img {
+.home_img {
   height: 95vh;
   width: 50vw;
- }
+}
 
-
- .first {
+.first {
   display: inline-block;
 }
 
@@ -138,11 +139,14 @@ textarea {
   /* background-color: #597ad4e8; */
   background: linear-gradient(to right, #2c59d3bb 50%, rgb(217, 219, 224) 50%);
   border-radius: 100px;
-  box-shadow: rgba(44, 106, 187, 0.2) 0 -25px 18px -14px inset,rgba(44, 106, 187, 0.2) 0 1px 2px,rgba(44, 106, 187, 0.2) 0 2px 4px,rgba(44, 106, 187, 0.2) 0 4px 8px,rgba(44, 106, 187, 0.2) 0 8px 16px,rgba(44, 106, 187, 0.2) 0 16px 32px;
+  box-shadow: rgba(44, 106, 187, 0.2) 0 -25px 18px -14px inset,
+    rgba(44, 106, 187, 0.2) 0 1px 2px, rgba(44, 106, 187, 0.2) 0 2px 4px,
+    rgba(44, 106, 187, 0.2) 0 4px 8px, rgba(44, 106, 187, 0.2) 0 8px 16px,
+    rgba(44, 106, 187, 0.2) 0 16px 32px;
   color: #0e308fe8;
   cursor: pointer;
   display: inline-block;
-  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+  font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
   padding: 7px 20px;
   text-align: center;
   text-decoration: none;
@@ -155,7 +159,10 @@ textarea {
 }
 
 .order_button:hover {
-  box-shadow: rgba(35, 152, 219, 0.35) 0 -25px 18px -14px inset,rgba(44, 106, 187, 0.2) 0 1px 2px,rgba(44, 106, 187, 0.2) 0 2px 4px,rgba(44, 106, 187, 0.2) 0 4px 8px,rgba(44, 106, 187, 0.2) 0 8px 16px,rgba(44, 106, 187, 0.2) 0 16px 32px;
+  box-shadow: rgba(35, 152, 219, 0.35) 0 -25px 18px -14px inset,
+    rgba(44, 106, 187, 0.2) 0 1px 2px, rgba(44, 106, 187, 0.2) 0 2px 4px,
+    rgba(44, 106, 187, 0.2) 0 4px 8px, rgba(44, 106, 187, 0.2) 0 8px 16px,
+    rgba(44, 106, 187, 0.2) 0 16px 32px;
   transform: scale(1.05) rotate(-1deg);
 }
 

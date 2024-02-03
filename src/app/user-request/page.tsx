@@ -1,44 +1,52 @@
+import GeneralRequestForm from './_components/GeneralRequestForm';
 import { authOptions } from '../api/auth/[...nextauth]/route';
-import { getReqsReceived, getReqsSent } from './_functionality';
+import { RequestCard } from './_components/Components';
+import { IUserRequest } from '@/models/UserRequest';
 import { getServerSession } from 'next-auth';
-
-const ReqSent = (obj: any) => (
-  <div style={{ padding: '20px', background: '#0001', borderRadius: '10px' }}>
-    {JSON.stringify(obj)}
-  </div>
-);
-const ReqReceived = (obj: any) => (
-  <div style={{ padding: '20px', background: '#0001', borderRadius: '10px' }}>
-    {JSON.stringify(obj)}
-  </div>
-);
+import styles from './styles.module.css';
+import { toJSON } from '@/utils';
+import {
+  getReqsReceivedPending,
+  getReqsSent,
+} from './_functionality/ServerActions';
+import RequestsReceivedDone from './_components/ClientComponents';
 
 export default async function UserRequestPage() {
   const session = await getServerSession(authOptions);
-  const req_sent = session?.user.custome_data?.user_type
-    ? await (session?.user.custome_data?.user_type == 'ADMIN'
-        ? getReqsSent('ADMIN')
-        : getReqsSent(session?.user.email))
-    : [];
-  const req_received = session?.user.custome_data?.user_type
-    ? await (session?.user.custome_data?.user_type == 'ADMIN'
-        ? getReqsReceived('ADMIN')
-        : getReqsReceived(session?.user.email))
-    : [];
+  if (!session?.user) return null;
+  const userIdentifier =
+    session?.user?.custome_data?.user_type === 'ADMIN'
+      ? 'ADMIN'
+      : session?.user.email;
+  const req_sent = toJSON(await getReqsSent(userIdentifier))?.reverse();
+  const req_received_pending = toJSON(
+    await getReqsReceivedPending(userIdentifier)
+  )?.reverse();
+  const req_received_done: Array<any> = [];
   return (
-    <main className="mainPage">
+    <main className={`mainPage ${styles.requestMainPage}`}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <GeneralRequestForm userIdentifier={userIdentifier} />
+      </div>
       <h1>Sent</h1>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {req_sent.map((ele, idx) => (
-          <ReqSent obj={ele} key={idx} />
+      <div className={`${styles.gridContainer}`}>
+        {req_sent.map((ele: IUserRequest, idx: number) => (
+          <RequestCard req={ele} key={idx} />
         ))}
       </div>
+      <hr style={{ borderWidth: '1px', borderColor: '#0003' }} />
       <h1>Received</h1>
-      <div>
-        {req_received.map((ele, idx) => (
-          <ReqReceived obj={ele} key={idx} />
+      <div className={`${styles.gridContainer}`}>
+        {req_received_pending.map((ele: IUserRequest, idx: number) => (
+          <RequestCard req={ele} key={idx} type="RECEIVED" />
         ))}
       </div>
+      <RequestsReceivedDone userIdentifier={userIdentifier} />
     </main>
   );
 }

@@ -1,8 +1,9 @@
 import { HoverButtom } from '../_components/ClientComponents';
 import styles from '../styles.module.css';
+
 export default function ProofDocumentSection() {
   return (
-    <div className={`${styles.profileInfoSection}`}>
+    <div className={`${styles.infoSection}`}>
       <h1>Documents</h1>
       <div
         style={{
