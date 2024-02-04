@@ -1,6 +1,7 @@
 import { RequestResponseForm } from './ClientComponents';
 import { format, formatDistance } from 'date-fns';
 import styles from '../styles.module.css';
+import { getTimeDiffFromNow } from '@/utils';
 
 const ReqBg: { [key: string]: string } = {
   PENDING: '#F7E671',
@@ -40,9 +41,7 @@ export const RequestCard = ({
     }}
   >
     <div className={styles.requestDate}>
-      {Date.now() - new Date(req.timestamp).getTime() < 24 * 3600 * 1000
-        ? formatDistance(req.timestamp, Date.now(), { includeSeconds: true })
-        : format(req.timestamp, 'MMM d/yyyy h:m a')}
+      {getTimeDiffFromNow(req.timestamp)}
     </div>
     <div
       className={`${styles.requestStatus}`}

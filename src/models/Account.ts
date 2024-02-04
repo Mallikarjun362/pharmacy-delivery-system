@@ -29,7 +29,6 @@ export interface IAccount {
     proof_documents: Array<any>,
     medical_history: Array<any>,
     gst_number: string,
-    field_update: any,
     seller_owner: any,
     joined_at: Date,
     upi_id: string,
@@ -75,11 +74,6 @@ const account_schema = new Schema<IAccount>({
         landmarks: SchemaTypes.String,
         building: SchemaTypes.String,
         city: SchemaTypes.String,
-    },
-    field_update: {
-        proof_documents: { t: { type: SchemaTypes.Date, default: () => Date.now() }, s: { type: SchemaTypes.Boolean, default: false }, },
-        blood_group: { t: { type: SchemaTypes.Date, default: () => Date.now() }, s: { type: SchemaTypes.Boolean, default: false }, },
-        gst_number: { t: { type: SchemaTypes.Date, default: () => Date.now() }, s: { type: SchemaTypes.Boolean, default: false }, },
     },
     notifications: [{
         message: SchemaTypes.String,

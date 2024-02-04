@@ -39,43 +39,43 @@ export default function GeneralDetailsEditForm({
         type="text"
         name="first_name"
         placeholder="First name"
-        defaultValue={userDetails.first_name}
+        defaultValue={userDetails?.first_name}
       />
       <input
         type="text"
         name="last_name"
         placeholder="Last name"
-        defaultValue={userDetails.last_name}
+        defaultValue={userDetails?.last_name}
       />
       <input
         type="text"
         name="father_name"
         placeholder="Father's name"
-        defaultValue={userDetails.father_name}
+        defaultValue={userDetails?.father_name}
       />
       <input
         type="text"
         name="phone_number"
         placeholder="Phone number"
-        defaultValue={userDetails.phone_number}
+        defaultValue={userDetails?.phone_number}
       />
       <input
         type="text"
         name="telegram_number"
         placeholder="Telegram number"
-        defaultValue={userDetails.whatsapp_number}
+        defaultValue={userDetails?.whatsapp_number}
       />
       <input
         type="text"
         name="whatsapp_number"
         placeholder="Whatsapp number"
-        defaultValue={userDetails.telegram_number}
+        defaultValue={userDetails?.telegram_number}
       />
       <input
         type="text"
         name="upi_id"
         placeholder="UPI Id"
-        defaultValue={userDetails.upi_id}
+        defaultValue={userDetails?.upi_id}
       />
       <select
         name="gender"

@@ -4,6 +4,8 @@
   border-radius: 15px;
   font-size: 22px;
   padding: 30px;
+  background-color: white;
+  backdrop-filter: blur(20px);
 }
 
 .infoSection h1,

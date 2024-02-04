@@ -15,7 +15,6 @@
   gap: 50px;
   flex: 1;
   padding-bottom: 200px;
-  background-color: #00000005;
 }
 
 @media all and (max-width: 1000px) {
@@ -69,7 +68,7 @@
   color: black;
 }
 
-/* -------------- STANDARD FORM ---------------- */
+/* == == STANDARD FORM == == */
 
 .standardForm {
   flex-direction: column;
@@ -130,7 +129,39 @@
 .standardForm select {
   padding: 5px;
 }
-/*----Home Page ----*/
+
+/* == == STANDARD TABLE == ==  */
+
+.tableWrapper {
+  overflow-x: auto;
+  max-width: 90vw;
+}
+
+.standardTable {
+  border: 1px solid black;
+  text-align: left;
+  width: 100%;
+}
+
+.standardTable tr:nth-child(odd) {
+  background-color: #0001;
+}
+
+.standardTable tr:hover {
+  background-color: #5ef8f733;
+}
+
+.standardTable th {
+  font-size: 20px;
+  padding: 10px;
+}
+
+.standardTable td {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+/* == == HOME PAHE == == */
 
 .home_img {
   height: 95vh;
@@ -194,4 +225,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* -------------------------------------------------- */
+
+.myBgMain {
+  background-image: url('https://png.pngtree.com/png-clipart/20230925/original/pngtree-handdrawn-seamless-pattern-featuring-adorable-cartoon-medicine-doodles-vector-png-image_12691813.png');
+  background-repeat: repeat;
+  background-size: 400px;
 }

@@ -7,6 +7,36 @@ import Link from 'next/link';
 
 export default async function MainNavigationBar() {
   const session = await getServerSession(authOptions);
+  const userType = session?.user.custome_data.user_type;
+  const navLinks: { [key: string]: any } = {
+    '/browse': 'Browse',
+    ...(session
+      ? {
+          ...(userType === 'BUYER'
+            ? {
+                '/buyer/cart': 'Cart',
+                '/buyer/orders': 'Orders',
+                '/buyer/prescriptions': 'Prescritions',
+              }
+            : {}),
+          ...(userType === 'SELLER'
+            ? {
+                '/seller/catalogue': 'Catalogue',
+                '/seller/orders': 'Incoming orders',
+              }
+            : {}),
+          ...(userType === 'ADMIN'
+            ? {
+                '/admin/user-overview': 'User overview',
+              }
+            : {}),
+          '/user-request': 'User requests',
+          '/api/auth/signout?callbackUrl=/': 'Sign out',
+        }
+      : {
+          '/api/auth/signin': 'Sign in',
+        }),
+  };
   return (
     <div
       className="flex"
@@ -50,80 +80,33 @@ export default async function MainNavigationBar() {
           justifyContent: 'center',
         }}
       >
-        <Link href={'/browse'} className="navLink">
-          Browse
-        </Link>
-        {session && session?.user?.custome_data?.user_type == 'BUYER'
-          ? [
-              <Link href={'/buyer/cart'} className="navLink" key={'b-cart'}>
-                Cart
-              </Link>,
-              <Link href={'/buyer/orders'} className="navLink" key={'b-orders'}>
-                Orders
-              </Link>,
-              <Link
-                href={'/buyer/prescriptions'}
-                className="navLink"
-                key={'b-prescription'}
-              >
-                Prescriptions
-              </Link>,
-            ]
-          : null}
-        {session && session?.user?.custome_data.user_type == 'SELLER'
-          ? [
-              <Link
-                href={'/seller/orders'}
-                className="navLink"
-                key={'s-orders'}
-              >
-                Orders
-              </Link>,
-              <Link
-                href={'/seller/catalogue'}
-                className="navLink"
-                key={'s-catalogue'}
-              >
-                Catalogue
-              </Link>,
-            ]
-          : null}
-        {session ? (
-          [
-            <Link href={'/user-request'} className="navLink" key={'request'}>
-              User request
-            </Link>,
-            <Link
-              href={'/api/auth/signout?callbackUrl=/'}
-              className="navLink"
-              key={'auth'}
-            >
-              Sign out
-            </Link>,
-            <Link
-              href={'/account'}
-              className="account flex items-center gap-2"
-              key={'account'}
-            >
-              <Image src={acnt} alt="accnt" />{' '}
-              <h1
-                style={{
-                  margin: '0 7px',
-                  fontSize: '1.5vw',
-                }}
-              >
-                Account
-              </h1>
-              <span className="text-lg">
-                {session?.user?.custome_data?.user_type}
-              </span>
-            </Link>,
-          ]
-        ) : (
-          <Link href={'/api/auth/signin'} className="navLink">
-            Sign in
+        {Object.keys(navLinks).map((url: any) => (
+          <Link href={url} className="navLink" key={url}>
+            {navLinks[url]}
           </Link>
-        )}
+        ))}
+        {session
+          ? [
+              <Link
+                href={'/account'}
+                className="account flex items-center gap-2"
+                key={'account'}
+              >
+                <Image src={acnt} alt="accnt" />{' '}
+                <h1
+                  style={{
+                    margin: '0 7px',
+                    fontSize: '1.5vw',
+                  }}
+                >
+                  Account
+                </h1>
+                <span className="text-lg">
+                  {session?.user?.custome_data?.user_type}
+                </span>
+              </Link>,
+            ]
+          : null}
       </div>
     </div>
   );

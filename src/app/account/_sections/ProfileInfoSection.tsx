@@ -22,7 +22,7 @@ export default async function ProfileInfoSection({
       >
         <h3>General</h3>
         <HoverTriggerButton
-          hoverContent={<GeneralDetailsEditForm />}
+          hoverContent={<GeneralDetailsEditForm userDetails={userDetails}/>}
           title="Edit details"
         />
       </div>

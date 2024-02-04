@@ -1,7 +1,7 @@
 import {
   IAccountDetails,
-  getAccountDetailsByEmail,
   getAccountDetailsById,
+  getAccountDetailsByEmail,
 } from './_functionality/ServerActions';
 import ProofDocumentSection from './_sections/ProofDocumentSection';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
@@ -21,19 +21,14 @@ export default async function AccountPage({
   const userDetails: IAccountDetails = userEmail
     ? await getAccountDetailsByEmail(userEmail)
     : await getAccountDetailsById(userSessionData?.db_id);
-  if (!userDetails)
-    return (
-      <div>
-        <h1>Admin view</h1>
-        No user found with email <b>{userEmail}</b>
-      </div>
-    );
+  const isAdminView = userEmail && userSessionData.user_type === 'ADMIN';
+
   return (
-    <main className="mainPage">
-      {userEmail ? (
+    <main className={`mainPage`}>
+      {isAdminView ? (
         <h1 style={{ fontSize: '30px', color: 'red' }}>Admin view</h1>
       ) : null}
-      {!userEmail && userSessionData.user_type !== userDetails.user_type  ? (
+      {!isAdminView && userSessionData.user_type !== userDetails.user_type ? (
         <div className={styles.notification}>
           <ImNotification
             style={{ fontSize: '60px', padding: '7px', color: '#F0872A' }}
@@ -45,8 +40,16 @@ export default async function AccountPage({
           </div>
         </div>
       ) : null}
-      <ProfileInfoSection userDetails={userDetails} />
-      <ProofDocumentSection userDetails={userDetails} />
+      {userDetails ? (
+        <>
+          <ProfileInfoSection userDetails={userDetails} />
+          <ProofDocumentSection userDetails={userDetails} />
+        </>
+      ) : (
+        <>
+          No user found with email <b>{userEmail}</b>
+        </>
+      )}
     </main>
   );
 }
