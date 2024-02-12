@@ -1,31 +1,29 @@
 import { withAuth, NextRequestWithAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
-const admin_only_paths = ["/account/admin"];
+const routePermissions: { [key: string]: Array<string> } = {
+    // CONCRETE URLS
+    '^/account/admin': ["ADMIN"],
+    '^/orders': ["BUYER", "DISPATCHER", "SELLER"],
+    // DYNAMIC URLS
+    '^(\/dispatcher).*': ["DISPATCHER", "ADMIN"],
+    '^(\/seller).*': ["SELLER", "ADMIN"],
+    '^(\/buyer).*': ["BUYER", "ADMIN"],
+    '^(\/admin).*': ["ADMIN"],
+};
 
 export default withAuth(
     function middleware(request: NextRequestWithAuth) {
         const token = request.nextauth.token;
-        const pathName = request.nextUrl.pathname;
+        const pathName: string = request.nextUrl.pathname;
 
-        // ONLY ADMIN
-        if (admin_only_paths.includes(pathName) && token?.custome_data?.user_type !== "ADMIN") {
-            return NextResponse.rewrite(new URL("/denied", request.url))
-        }
-
-        // ONLY SELLER 
-        if (pathName.startsWith("/seller") && token?.custome_data?.user_type !== "SELLER") {
-            return NextResponse.rewrite(new URL("/denied", request.url))
-        }
-
-        // ONLY BUYER 
-        if (pathName.startsWith("/buyer") && token?.custome_data?.user_type !== "BUYER") {
-            return NextResponse.rewrite(new URL("/denied", request.url))
-        }
-
-        // ONLY DISPATCHER
-        if (pathName.startsWith("/dispatcher") && token?.custome_data?.user_type !== "DISPATCHER") {
-            return NextResponse.rewrite(new URL("/denied", request.url))
+        for (let k of Object.keys(routePermissions)) {
+            if (pathName.match(new RegExp(k))) {
+                if (!routePermissions[k].includes(token?.custome_data?.user_type as string)) {
+                    return NextResponse.rewrite(new URL("/denied", request.url))
+                }
+                break;
+            }
         }
     },
     {
@@ -35,4 +33,12 @@ export default withAuth(
     }
 );
 
-export const config = { matcher: ["/seller/:path*", "/account/admin", "/buyer/:path*", "/dispatcher/:path"] };
+export const config = {
+    matcher: [
+        "/dispatcher/:path",
+        "/account/admin",
+        "/seller/:path*",
+        "/buyer/:path",
+        "/admin/:path"
+    ]
+};

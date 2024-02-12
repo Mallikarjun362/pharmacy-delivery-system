@@ -1,7 +1,7 @@
 'use client';
 import { useGlobalContext } from '@/app/_context/store';
 import { useSession } from 'next-auth/react';
-import { useState, } from 'react';
+import { useState } from 'react';
 import {
   IAccountDetails,
   setAccountDetails,
@@ -137,6 +137,12 @@ export default function GeneralDetailsEditForm({
             name="date_of_birth"
             placeholder="Date of birth"
             defaultValue={userDetails?.date_of_birth?.toISOString()}
+          />
+          <input
+            type="email"
+            name="seller_dispatcher"
+            placeholder="Seller owner / Dispatcher"
+            defaultValue={userDetails?.seller_dispatcher}
           />
         </>
       ) : null}

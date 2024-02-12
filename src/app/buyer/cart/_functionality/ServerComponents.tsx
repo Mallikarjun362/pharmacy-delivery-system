@@ -1,81 +1,105 @@
 'use server';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { PrescriptionActions } from '@/models/Prescription';
-import CatalogueItem from '@/models/CatalogueItem';
-import { debugLog, toJSON } from '@/utils';
-import Order from '@/models/Order';
-import Account from '@/models/Account';
+import CatalogItem from '@/models/CatalogItem';
+import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
+import Account from '@/models/Account';
+import Order from '@/models/Order';
+import { toJSON } from '@/utils';
+
+function generateRandom4DigitNumber() {
+  return Math.floor(1000 + Math.random() * 9000);
+}
 
 export const getMayMedicineDetails = async (
   db_id_arr: Array<string>
-): Promise<Array<any>> => {
-  return toJSON(
-    await CatalogueItem.findMany({
-      _id: {
-        $in: db_id_arr,
-      },
-    })
+): Promise<Array<any>> =>
+  toJSON(
+    await CatalogItem.findMany({ _id: { $in: db_id_arr } })
       .select({ _id: 1, title: 1 })
       .lean()
       .exec()
   );
-};
 
 export const placeOrderManual = async ({
   cart,
-  prescription_file,
-  seller_db_id,
-  buyer_db_id,
-}: any) => {
-  // debugLog(
-  //   'PLACE ORDER MANUAL',
-  //   cart,
-  //   prescription_file,
-  //   seller_db_id,
-  //   buyer_db_id
-  // );
+  formData,
+}: {
+  cart: { [item_db_id: string]: number };
+  formData: FormData;
+}) => {
+  // INPUT = CART : { ITEM DB ID => QUANTITY }
+  // FORM-DATA CONTAINS 1. IMAGE AND 2. PAYMENT MODE
+  const session = await getServerSession(authOptions);
+  const buyer_db_id = session?.user?.custome_data?.db_id as string;
+  const prescription_file = formData.get('prescription_file') as File;
+
+  // CALCULATE TOTAL COST AND GET SELLER DB ID
   let total_cost = 0;
-  for (let val of Object.values(cart)) {
-    total_cost += (val as any).unit_price * (val as any).quantity;
+  const items = await CatalogItem.find({
+    _id: {
+      $in: Object.keys(cart),
+    },
+  }).select({
+    is_prescription_required: 1,
+    stock_count: 1,
+    unit_price: 1,
+    seller: 1,
+    title: 1,
+  });
+
+  const seller_db_id: string = items[0].seller;
+  for (let item of items) {
+    total_cost +=
+      item.unit_price * cart[(item?._id as any)?.toString() as string];
   }
 
+  // CREATING PRESCRIPTION
   let prec = null;
   if (prescription_file) {
     prec = await PrescriptionActions.addPrescription({
-      image_files: [
-        Buffer.from(
-          await (prescription_file.get('file') as File).arrayBuffer()
-        ),
-      ],
+      file: prescription_file,
+      title: 'Prescription from order',
       buyer_db_id,
-      title: 'From Order',
     });
   }
-  const the_buyer = await Account.findById(buyer_db_id);
+
+  const theBuyer = await Account.findById(buyer_db_id).select({
+    longitude: 1,
+    latitude: 1,
+    address: 1,
+  });
+  // CREATING ORDER
+  // 3 ENTITIES = [PRESCRIPTION + BUYER => ORDER]
   const new_order = new Order({
-    delivery_location: {
-      longitude: the_buyer.longitude,
-      latitude: the_buyer.latitude,
-    },
-    available_items: Object.keys(cart).map((k: string) => ({
-      dosage_details: '',
-      unit_price: cart[k].unit_price,
-      quantity: cart[k].quantity,
-      title: cart[k].title,
-    })),
-    delivery_address: the_buyer?.address,
-    total_cost,
-    order_status: 'CONFIRMED',
+    timeline: [{ event: 'CONFIRMED', t: Date.now() }],
+    delivery_address: theBuyer?.address,
+    otp: generateRandom4DigitNumber(),
     prescription: (prec as any)?._id,
-    otp: 0,
+    order_status: 'CONFIRMED',
     seller: seller_db_id,
     buyer: buyer_db_id,
-    timestamp: {
-      buyerConfirm: Date.now(),
+    total_cost,
+
+    delivery_location: {
+      longitude: theBuyer.longitude,
+      latitude: theBuyer.latitude,
     },
+
+    available_items: [
+      ...items.map((item: any) => ({
+        unit_price: item.unit_price,
+        quantity: cart[item._id?.toString()],
+        title: item.title,
+        dosage_details: '',
+      })),
+    ],
+
     payment: {
-      payment_holder: 'BUYER',
-      mode: 'COD',
+      mode: formData.get('payment_mode')?.toString(),
+      payment_holder: { B: 1, S: -1, D: 0 },
+      package_holder: { B: -1, S: 1, D: 0 },
     },
   });
   await new_order.save();

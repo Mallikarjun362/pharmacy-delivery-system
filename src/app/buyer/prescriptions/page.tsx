@@ -15,7 +15,7 @@ export default async function PrescriptionPage() {
     <main className="mainPage">
       <PrescriptionCreationForm />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '50px' }}>
-        {my_prescriptions.map((val, idx) => (
+        {my_prescriptions.reverse().map((val, idx) => (
           <PrescriptionCard details={val} key={idx} />
         ))}
       </div>

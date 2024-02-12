@@ -1,11 +1,11 @@
 'use server'
-import { UserRequestActions } from "@/models/UserRequest";
-import { revalidatePath } from "next/cache";
-import Account, { AccountActions, AccountType } from "@/models/Account"
-import { toJSON } from "@/utils";
-import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { UserRequestActions } from "@/models/UserRequest";
+import Account, { AccountType } from "@/models/Account"
+import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 import UserFile from "@/models/UserFile";
+import { toJSON } from "@/utils";
 
 export interface IAccountDetails {
     telegram_number: string, whatsapp_number: string, phone_number: string,
@@ -13,6 +13,7 @@ export interface IAccountDetails {
     upi_id: string, gender: string, primary_email: string, user_type: string
     // IMPORTANT DETAILS
     blood_group: string, date_of_birth: Date, aadhar_number: number, student_id: number,
+    seller_dispatcher: string
 }
 
 export const getAccountDetailsByEmail = async (userEmail: string): Promise<IAccountDetails> => userEmail && String(userEmail)
@@ -24,7 +25,7 @@ export const getAccountDetailsByEmail = async (userEmail: string): Promise<IAcco
             is_verified_by_admin: 1, last_field_update: 1, whatsapp_number: 1, telegram_number: 1,
             primary_email: 1, aadhar_number: 1, date_of_birth: 1, notifications: 1, phone_number: 1,
             blood_group: 1, father_name: 1, student_id: 1, first_name: 1, last_name: 1, user_type: 1,
-            address: 1, gender: 1, upi_id: 1, _id: 1,
+            address: 1, gender: 1, upi_id: 1, _id: 1, seller_dispatcher: 1,
             // FILES
             medical_history: 1, proof_documents: 1
         })
@@ -39,7 +40,7 @@ export const getAccountDetailsById = async (db_id: string): Promise<IAccountDeta
             is_verified_by_admin: 1, last_field_update: 1, whatsapp_number: 1, telegram_number: 1,
             primary_email: 1, aadhar_number: 1, date_of_birth: 1, notifications: 1, phone_number: 1,
             blood_group: 1, father_name: 1, student_id: 1, first_name: 1, last_name: 1, user_type: 1,
-            address: 1, gender: 1, upi_id: 1, _id: 1,
+            address: 1, gender: 1, upi_id: 1, _id: 1, seller_dispatcher: 1,
             // FILES
             medical_history: 1, proof_documents: 1
         })
@@ -53,6 +54,7 @@ export const setAccountDetails = async (formData: FormData) => {
     const userType = session?.user?.custome_data?.user_type;
     const db_id = userType === "ADMIN" ? formData.get('db_id') : session?.user?.custome_data?.db_id;
     await Account.findByIdAndUpdate(db_id, {
+        seller_dispatcher: formData.get('seller_dispatcher')?.toString(),
         telegram_number: formData.get('telegram_number')?.toString(),
         whatsapp_number: formData.get('whatsapp_number')?.toString(),
         phone_number: formData.get('phone_number')?.toString(),

@@ -31,6 +31,7 @@
 
 .infoTable td {
   padding: 5px 10px;
+  text-wrap: nowrap;
 }
 
 .infoTable tr:nth-child(odd) {

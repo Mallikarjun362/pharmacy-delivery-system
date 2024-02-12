@@ -1,0 +1,18 @@
+.sellerCart {
+  background-color: #00000009;
+  border: 1px solid gray;
+  border-radius: 15px;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  padding: 20px;
+  width: 100%;
+  gap: 20px;
+}
+
+@media all and (max-width: 1000px) {
+  .sellerCart {
+    flex-direction: column;
+  }
+}

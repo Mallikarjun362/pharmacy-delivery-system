@@ -4,35 +4,9 @@ import {
   getPrescriptionImage,
   getSellerOptions,
   placeOrderFromPrescription,
-} from '../_functionality';
+} from '../_functionality/ServerActions';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-
-export const ViewPrescriptionImageButton = ({ _id }: { _id: string }) => {
-  const { setHoverContent } = useGlobalContext();
-  return (
-    <button
-      onClick={async () => {
-        const val = await getPrescriptionImage(_id);
-        setHoverContent(
-          <img
-            src={`data:image/jpeg;base64,${val[0]}`}
-            alt="Image"
-            width={1000}
-            height={1000}
-          />
-        );
-      }}
-      style={{
-        backgroundColor: 'cyan',
-        borderRadius: '10px',
-        padding: '5px 10px',
-      }}
-    >
-      View image
-    </button>
-  );
-};
 
 export default function PlaceOrder({
   prescription_db_id,

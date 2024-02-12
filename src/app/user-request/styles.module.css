@@ -1,9 +1,8 @@
 .requestMainPage {
-  padding: 50px 10%;
+  padding: 50px 10% 200px 10%;
   display: flex;
   gap: 50px;
   flex: 1;
-  padding-bottom: 200px;
 }
 
 .requestMainPage h1 {
