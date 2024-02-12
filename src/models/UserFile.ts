@@ -1,5 +1,5 @@
 import mongoose, { Schema, SchemaTypes } from "mongoose";
-import { MONGODB_URI } from "@/utils/Constants";
+import ".";
 
 export interface IUserFile {
     description: string,
@@ -18,12 +18,6 @@ const user_file_schema = new Schema<IUserFile>({
     doc_type: { type: SchemaTypes.String },
     title: { type: SchemaTypes.String },
 });
-
-
-if (!(global as any)._mongooseConnection) {
-    mongoose.connect(MONGODB_URI).then(() => console.log("Mongoose connection successful"));
-    (global as any)._mongooseConnection = mongoose.connection;
-}
 
 const UserFile = mongoose.models.UserFile as any || mongoose.model<IUserFile>('UserFile', user_file_schema);
 

@@ -1,50 +1,53 @@
-import { MONGODB_URI } from "@/utils/Constants";
 import mongoose, { Schema, SchemaTypes } from "mongoose";
-import { AccountActions } from "./Account";
+import ".";
+import UserFile from "./UserFile";
 
 export interface IPrescription {
-    image_files: Array<Buffer>,
-    main_order: any,
     timestamp: Date,
     title: string,
     buyer: any,
+    file: any,
 };
 
 const prescription_schema = new Schema<IPrescription>({
     timestamp: { type: SchemaTypes.Date, default: () => Date.now() },
-    main_order: { type: SchemaTypes.ObjectId, ref: "Order" },
+    file: { type: SchemaTypes.ObjectId, ref: "UserFile" },
     title: { type: SchemaTypes.String, maxlength: 100, },
     buyer: { type: SchemaTypes.ObjectId, ref: "Buyer" },
-    image_files: [{ type: SchemaTypes.Buffer }],
 });
-
-if (!(global as any)._mongooseConnection) {
-    mongoose.connect(MONGODB_URI).then(() => console.log("Mongoose connection successful"));
-    (global as any)._mongooseConnection = mongoose.connection;
-}
 
 const Prescription = mongoose.models.Prescription as any || mongoose.model<IPrescription>('Prescription', prescription_schema);
 
 export default Prescription;
 
 interface IPrescriptionActions {
-    addPrescription({ image_files, title, buyer_db_id }: { image_files: Array<any>, title: string, buyer_db_id: string }): Promise<boolean>,
+    addPrescription(props: { file: File, title: string, buyer_db_id: string }): Promise<boolean>,
     getMyPrescriptions(buyer_db_id: string): Promise<Array<IPrescription>>,
     deletePrescription(_id: string): Promise<boolean>,
-    getImages(_id: string): Promise<any>,
+    getImage(_id: string): Promise<any>,
 }
 
 export const PrescriptionActions: IPrescriptionActions = {
-    addPrescription: async ({ image_files, title, buyer_db_id }: { image_files: Array<any>, title: string, buyer_db_id: string }) => {
-        const new_prescription = new Prescription({ buyer: buyer_db_id, image_files, title, });
+    addPrescription: async ({ file, title, buyer_db_id }) => {
+        const newUserFile = new UserFile({
+            file: Buffer.from(await file?.arrayBuffer()),
+            doc_type: "PRESCRIPTION",
+            extension: file.type,
+            title: title,
+        });
+        await newUserFile.save();
+        const new_prescription = new Prescription({ buyer: buyer_db_id, file: newUserFile?._id, title, });
         await new_prescription.save();
         return new_prescription;
     },
-    deletePrescription: async (_id: string) => !!(await Prescription.findOneAndDelete({ _id }).exec()),
+
     getMyPrescriptions: async (buyer_db_id: string) => await Prescription
-        .find({ buyer: new mongoose.Types.ObjectId(buyer_db_id) }).select({ timestamp: 1, title: 1 }).lean().exec().then((data: any) => JSON.parse(JSON.stringify(data))),
-    getImages: async (_id): Promise<Array<string>> => {
-        const val = (await Prescription.findById(_id).select({ image_files: 1, _id: 0 }).lean().exec()).image_files.map((val: any) => val.toString('base64'));
-        return val
-    },
+        .find({ buyer: new mongoose.Types.ObjectId(buyer_db_id) })
+        .select({ timestamp: 1, title: 1, file: 1, }).lean().exec()
+        .then((data: any) => JSON.parse(JSON.stringify(data))),
+
+    getImage: async (_id): Promise<Array<string>> => (await Prescription.findById(_id)
+        .select({ file: 1, _id: 0 })
+        .populate({ path: 'file', select: { file: 1 } }).lean().exec()).file.file.toString('base64'),
+    deletePrescription: async (_id: string) => !!(await Prescription.findOneAndDelete({ _id }).exec()),
 }

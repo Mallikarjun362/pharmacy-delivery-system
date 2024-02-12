@@ -1,5 +1,5 @@
-import mongoose, { Model, Schema, SchemaType, SchemaTypes } from "mongoose";
-import { MONGODB_URI } from "@/utils/Constants";
+import mongoose, { Schema, SchemaTypes } from "mongoose";
+import ".";
 
 export interface IAddress {
     additional_details: string,
@@ -28,8 +28,8 @@ export interface IAccount {
     notifications: Array<INotification>,
     proof_documents: Array<any>,
     medical_history: Array<any>,
+    seller_dispatcher: any,
     gst_number: string,
-    seller_owner: any,
     joined_at: Date,
     upi_id: string,
 
@@ -65,7 +65,7 @@ const account_schema = new Schema<IAccount>({
     joined_at: { type: SchemaTypes.Date, default: () => Date.now() },
     medical_history: [{ type: SchemaTypes.ObjectId, ref: "UserFile" }],
     proof_documents: [{ type: SchemaTypes.ObjectId, ref: "UserFile" }],
-    seller_owner: { type: SchemaTypes.ObjectId, ref: "Account" },
+    seller_dispatcher: SchemaTypes.String,
     gst_number: SchemaTypes.String,
     upi_id: SchemaTypes.String,
 
@@ -81,12 +81,6 @@ const account_schema = new Schema<IAccount>({
         title: SchemaTypes.String,
     }],
 });
-
-
-if (!(global as any)._mongooseConnection) {
-    mongoose.connect(MONGODB_URI).then(() => console.log("Mongoose connection successful"));
-    (global as any)._mongooseConnection = mongoose.connection;
-}
 
 const Account = mongoose.models.Account as any || mongoose.model<IAccount>('Account', account_schema);
 
