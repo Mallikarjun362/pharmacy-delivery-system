@@ -78,8 +78,9 @@ export const DropDownMenu = ({
             margin: '10px',
           }}
         >
-          {Object.keys(items).map((url: any) => (
+          {Object.keys(items).map((url: any,idx:number) => (
             <DropDownItem
+              key={idx}
               icon={items[url].icon}
               title={items[url].title}
               url={url}

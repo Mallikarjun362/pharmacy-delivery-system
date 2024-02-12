@@ -28,8 +28,8 @@ export default function PlaceOrder({
         Selected Seller: {selectedOption?.primary_email}
       </div>
       <div>
-        {sellerOptions.map((ele: any) => (
-          <button onClick={() => setSelectedOption(ele)}>
+        {sellerOptions.map((ele: any, idx) => (
+          <button onClick={() => setSelectedOption(ele)} key={idx}>
             Seller: {ele.primary_email}
           </button>
         ))}
