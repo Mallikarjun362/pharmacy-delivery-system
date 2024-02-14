@@ -29,10 +29,10 @@ export default async function MainNavigationBar() {
     ...(session
       ? {
           '/': { icon: <GoHome />, title: 'Home' },
-          '/account': { icon: <VscAccount />, title: `Account - ${userType}` },
           '/browse': { icon: <MdOutlineExplore />, title: 'Browse' },
+          '/account': { icon: <VscAccount />, title: `Account - ${userType}` },
           // ------------ ONLY BUYER ------------
-          ...(userType === 'BUYER'
+          ...(userType === 'BUYER' || userType === 'ADMIN'
             ? {
                 '/buyer/cart': {
                   icon: <MdOutlineShoppingCart />,

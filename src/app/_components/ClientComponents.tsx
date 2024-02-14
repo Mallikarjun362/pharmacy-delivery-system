@@ -27,7 +27,7 @@ export const DropDownItem = ({
       gap: '20px',
     }}
   >
-    <span className="duration-0" style={{ fontSize: '30px' }}>
+    <span className="duration-0" style={{ fontSize: '35px' }}>
       {icon ? icon : <GoDotFill />}
     </span>
     <span className="duration-0">{title}</span>
@@ -61,7 +61,11 @@ export const DropDownMenu = ({
         }}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <div style={{ fontSize: '24px', padding: '5px 10px',fontWeight:"500" }}>{userType ? userType : "Sign in"}</div>
+        <div
+          style={{ fontSize: '24px', padding: '5px 10px', fontWeight: '500' }}
+        >
+          {userType ? userType : 'Sign in'}
+        </div>
         {isOpen ? <GrClose size={47} /> : <TfiMenu size={47} />}
       </div>
       {isOpen ? (
@@ -78,7 +82,7 @@ export const DropDownMenu = ({
             margin: '10px',
           }}
         >
-          {Object.keys(items).map((url: any,idx:number) => (
+          {Object.keys(items).map((url: any, idx: number) => (
             <DropDownItem
               key={idx}
               icon={items[url].icon}
