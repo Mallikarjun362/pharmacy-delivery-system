@@ -7,6 +7,18 @@ import styles from '../styles.module.css';
 import Image from 'next/image';
 import { placeOrderManual } from '../_functionality/ServerComponents';
 
+function generateRandomString() {
+  const alphanumericChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+
+  for (let i = 0; i < 20; i++) {
+    const randomIndex = Math.floor(Math.random() * alphanumericChars.length);
+    result += alphanumericChars.charAt(randomIndex);
+  }
+
+  return result;
+}
+
 export const CartItemCard = ({ item, update }: { item: any; update: any }) => {
   const { cart, setCart } = useGlobalContext();
   const [quantity, setQuantity] = useState(item.quantity);
@@ -97,6 +109,7 @@ export const SellerCart = ({ seller_db_id }: { seller_db_id: string }) => {
   const [sellerCart, setSellerCart] = useState<Array<any>>([]);
   const [totalCost, setTotalCost] = useState<number>(0);
   const [update, setUpdate] = useState<boolean>(false);
+  const [paymentMode, setPaymentMode] = useState<string>('');
   const [isPrescriptionRequired, setIsPrescriptionRequired] =
     useState<boolean>(false);
 
@@ -179,10 +192,12 @@ export const SellerCart = ({ seller_db_id }: { seller_db_id: string }) => {
         ) : (
           <div>Prescription not required</div>
         )}
+        {paymentMode === 'UPI' ? <a href={`upi://pay?pa=9494248739@paytm&amp;pn=Mr Gaddey Hemanth Chowdary&amp;am=${totalCost}&amp;mc=bdOMam96965720364044&amp;cu=INR;tr=${generateRandomString()};tn=pharmacy delivery payment`} className='text-blue-500'>Pay</a> : null}
         <select
           style={{ padding: '15px' }}
           name="payment_mode"
-          defaultValue={''}
+          value={paymentMode}
+          onChange={(e) => setPaymentMode(e.target.value)}
           required
         >
           <option value="" disabled>
