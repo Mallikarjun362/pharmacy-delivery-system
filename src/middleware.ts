@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server';
 
 const routePermissions: { [key: string]: Array<string> } = {
     // CONCRETE URLS
-    '^/account/admin': ["ADMIN"],
-    '^/orders': ["BUYER", "DISPATCHER", "SELLER"],
+    '^(\/account\/admin)': ["ADMIN"],
+    '^(\/orders)': ["BUYER", "DISPATCHER", "SELLER"],
     // DYNAMIC URLS
     '^(\/dispatcher).*': ["DISPATCHER", "ADMIN"],
     '^(\/seller).*': ["SELLER", "ADMIN"],
