@@ -6,6 +6,7 @@ import {
   refreshMessages,
   rejectOrder,
   sendMessage,
+  setOrderDelivered,
   updateDosage,
 } from '../_functionality/ServerActions';
 import { ActionButton } from '@/app/_components/EntityComponent';
@@ -305,6 +306,16 @@ export default function SellerOrderOverview({
               txt="Dispatched"
               cb={async () => {
                 await dispatchOrder({ order_db_id: orderDetails._id });
+                setHoverContent(null);
+              }}
+            />
+          ) : null}
+          {orderDetails.order_status === 'DISPATCHED' && userType === "DISPATCHER" ? (
+            <ActionButton
+              bg="lightgreen"
+              txt="Delivered"
+              cb={async () => {
+                await setOrderDelivered({ order_db_id: orderDetails._id });
                 setHoverContent(null);
               }}
             />

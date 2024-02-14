@@ -7,7 +7,7 @@ import { getTimeDiffFromNow } from '@/utils';
 
 export default async function SellerOrdersPage() {
   const orders_received = await getOrders();
-  const status_colors: any = { REJECTED: '#EFA4A6', DISPATCHED: '#F4A841AA' };
+  const status_colors: any = { REJECTED: '#EFA4A6', DISPATCHED: '#F4A841AA',DELIVERED:'#C6ECB6' };
   return (
     <main className="mainPage">
       {orders_received.reverse().map((ele, idx) => (
