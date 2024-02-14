@@ -22,7 +22,7 @@ export default async function ProfileInfoSection({
       >
         <h3>General</h3>
         <HoverTriggerButton
-          hoverContent={<GeneralDetailsEditForm userDetails={userDetails}/>}
+          hoverContent={<GeneralDetailsEditForm userDetails={userDetails} />}
           title="Edit details"
         />
       </div>
@@ -89,6 +89,14 @@ export default async function ProfileInfoSection({
                   : ''
               }
             />
+            {['SELLER', 'GENERAL', 'DISPATCHER'].includes(
+              userDetails.user_type
+            ) ? (
+              <DisplaykeyValue
+                k="Seller owner / Dispatcher"
+                v={userDetails?.seller_dispatcher}
+              />
+            ) : null}
           </tbody>
         </table>
       </div>

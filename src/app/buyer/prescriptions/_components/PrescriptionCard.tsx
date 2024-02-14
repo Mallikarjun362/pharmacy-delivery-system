@@ -1,15 +1,14 @@
 'use client';
-import PlaceOrder, {
-  PlaceOrderButton,
-  ViewPrescriptionImageButton,
-} from './ClientComponents';
-import { deletePrescription, } from '../_functionality';
+import HoverTriggerButton from '@/app/_components/HoverTriggerButton';
+import { deletePrescription } from '../_functionality/ServerActions';
+import DisplayFile from '@/app/_components/DisplayFile';
+import { PlaceOrderButton } from './ClientComponents';
 import { format } from 'date-fns';
 
 export default function PrescriptionCard({
   details,
 }: {
-  details: { title?: string; timestamp?: string; _id?: string };
+  details: { title?: string; timestamp?: string; _id?: string; file: string };
 }) {
   return (
     <div
@@ -37,7 +36,15 @@ export default function PrescriptionCard({
       <br />
       <div style={{ display: 'flex', gap: '10px' }}>
         <PlaceOrderButton db_id={details?._id || ''} />
-        <ViewPrescriptionImageButton _id={details?._id || ''} />
+        <HoverTriggerButton
+          title="View prescription"
+          hoverContent={<DisplayFile file_db_id={details.file} />}
+          buttonStyle={{
+            backgroundColor: 'cyan',
+            borderRadius: '10px',
+            padding: '5px 10px',
+          }}
+        />
         <button
           onClick={() => deletePrescription(details?._id || '')}
           style={{

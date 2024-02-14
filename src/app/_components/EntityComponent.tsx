@@ -1,6 +1,8 @@
+import { CSSProperties } from 'react';
+
 export const ActionButton = ({
-  cb=null,
-  bg='#0002',
+  cb = null,
+  bg = '#0002',
   txt,
 }: {
   cb?: any;
@@ -8,7 +10,12 @@ export const ActionButton = ({
   txt: string;
 }) => (
   <button
-    style={{ backgroundColor: bg, padding: '3px 15px', borderRadius: '100px' }}
+    style={{
+      backgroundColor: bg,
+      padding: '3px 15px',
+      borderRadius: '100px',
+      height: 'min-content',
+    }}
     onClick={cb}
   >
     {txt}
@@ -16,11 +23,13 @@ export const ActionButton = ({
 );
 
 export default function EntityComponent({
-  entity_details,
-  action_buttons = [],
+  details,
+  buttons = '',
+  style = {},
 }: {
-  entity_details: any;
-  action_buttons?: Array<any>;
+  details: any;
+  buttons?: any;
+  style?: CSSProperties;
 }) {
   return (
     <div
@@ -29,12 +38,13 @@ export default function EntityComponent({
         backgroundColor: '#0001',
         borderRadius: '10px',
         padding: '15px',
+        ...style,
       }}
     >
-      <div>{JSON.stringify(entity_details)}</div>
+      <div>{details}</div>
       <br />
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px' }}>
-        {action_buttons}
+        {buttons}
       </div>
     </div>
   );

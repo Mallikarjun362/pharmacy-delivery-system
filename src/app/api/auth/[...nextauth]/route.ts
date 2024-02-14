@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { AccountActions } from "@/models/Account";
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
-import { debugLog } from "@/utils";
+import { connectMongooseDB } from "@/models";
 
 export const authOptions: NextAuthOptions = {
     session: { strategy: "jwt", },
@@ -13,6 +13,7 @@ export const authOptions: NextAuthOptions = {
             clientId: GOOGLE_OAUTH_CLIENT_ID,
             clientSecret: GOOGLE_OAUTH_CLIENT_SECRET,
             async profile(user_profile) {
+                await connectMongooseDB();
                 const email = user_profile.email
                 let user_type = email === ADMIN_EMAIL ? "ADMIN" : "GENERAL";
                 let the_user = await AccountActions.getUserRefAndTypeIdByEmail(email);

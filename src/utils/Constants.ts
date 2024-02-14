@@ -1,7 +1,12 @@
+import { custom } from 'openid-client';
+
+custom.setHttpOptionsDefaults({
+    timeout: 60000,
+});
+
 // GOOGLE OAUTH CREDENTIALS
 export const GOOGLE_OAUTH_CLIENT_ID: string = process.env.GOOGLE_OAUTH_CLIENT_ID!;
 export const GOOGLE_OAUTH_CLIENT_SECRET: string = process.env.GOOGLE_OAUTH_CLIENT_SECRET!;
-
 
 // GENERAL
 export const ADMIN_EMAIL: string = process.env.ADMIN_EMAIL!;

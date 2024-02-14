@@ -1,7 +1,7 @@
 import { RequestResponseForm } from './ClientComponents';
-import { format, formatDistance } from 'date-fns';
-import styles from '../styles.module.css';
 import { getTimeDiffFromNow } from '@/utils';
+import styles from '../styles.module.css';
+import Link from 'next/link';
 
 const ReqBg: { [key: string]: string } = {
   PENDING: '#F7E671',
@@ -56,7 +56,16 @@ export const RequestCard = ({
     </p>
     {type === 'RECEIVED' ? (
       <div className={`${styles.requestEmail}`}>
-        From: <b>{req.from_user}</b>
+        From:
+        <b>
+          {req.from_user === 'ADMIN' ? (
+            req.from_user
+          ) : (
+            <Link href={`/account/admin?userEmail=${req.from_user}`}>
+              {req.from_user}
+            </Link>
+          )}
+        </b>
       </div>
     ) : (
       <div className={`${styles.requestEmail}`}>To: {req.to_user}</div>

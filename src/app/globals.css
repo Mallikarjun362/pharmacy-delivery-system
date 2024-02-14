@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-  transition-duration: 230ms;
+  transition-duration: 200ms;
 }
 
 .mainPage {
@@ -72,13 +72,14 @@
 
 .standardForm {
   flex-direction: column;
-  overflow: hidden;
+  height: min-content;
+  border-radius: 10px;
+  max-width: 80vw;
   font-size: 20px;
   color: black;
   display: flex;
   padding: 30px;
   gap: 10px;
-  max-width: 80vw;
 }
 
 .standardForm input,
@@ -103,6 +104,7 @@
   font-size: 35px;
 }
 
+.inputBtn,
 .standardForm input[type='submit'],
 .standardForm input[type='reset'] {
   background-color: lightgreen;
@@ -118,6 +120,8 @@
   background-color: orange;
 }
 
+.inputBtn:hover,
+.inputBtn:focus,
 .standardForm input[type='submit']:hover,
 .standardForm input[type='submit']:focus,
 .standardForm input[type='reset']:hover,
@@ -134,7 +138,8 @@
 
 .tableWrapper {
   overflow-x: auto;
-  max-width: 90vw;
+  max-width: min(100%, 90vw);
+  width: 100%;
 }
 
 .standardTable {
@@ -159,25 +164,6 @@
 .standardTable td {
   border: 1px solid black;
   padding: 10px;
-}
-
-/* == == HOME PAHE == == */
-
-.home_img {
-  height: 95vh;
-  width: 50vw;
-}
-
-.first {
-  display: inline-block;
-}
-
-.left {
-  float: left;
-}
-
-.right {
-  float: left;
 }
 
 .order_button {
@@ -234,3 +220,5 @@
   background-repeat: repeat;
   background-size: 400px;
 }
+
+/* ================ GRID LAYOUT PAGE ================ */

@@ -1,6 +1,6 @@
 import mongoose, { Schema, SchemaTypes } from "mongoose";
 import Account, { AccountType } from "./Account";
-import { MONGODB_URI } from "@/utils/Constants";
+import ".";
 
 export interface IUserRequest {
     status: "ACCEPTED" | "REJECTED" | "PENDING",
@@ -26,13 +26,7 @@ const user_request_schema = new Schema<IUserRequest>({
     data: SchemaTypes.Map,
 });
 
-if (!(global as any)._mongooseConnection) {
-    mongoose.connect(MONGODB_URI).then(() => console.log("Mongoose connection successful"));
-    (global as any)._mongooseConnection = mongoose.connection;
-}
-
 const UserRequest = mongoose.models.UserRequest as any || mongoose.model<IUserRequest>('UserRequest', user_request_schema);
-
 
 export default UserRequest;
 

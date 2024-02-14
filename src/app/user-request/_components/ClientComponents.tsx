@@ -3,7 +3,6 @@ import {
   getReqsReceivedDone,
   handleResponseSubmit,
 } from '../_functionality/ServerActions';
-import { useEffect, useState } from 'react';
 import styles from '../styles.module.css';
 import { RequestCard } from './Components';
 import { useGlobalContext } from '@/app/_context/store';
