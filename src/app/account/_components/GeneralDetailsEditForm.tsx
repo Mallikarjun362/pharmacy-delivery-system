@@ -15,8 +15,9 @@ export default function GeneralDetailsEditForm({
   const { setHoverContent } = useGlobalContext();
   const session = useSession();
   const [gender, setGender] = useState('');
-  const userDbId = session.data?.user?.custome_data?.db_id;
-  const userType = session.data?.user?.custome_data?.user_type;
+  const userDbId = (userDetails as any)._id;
+  const currentUserType = session.data?.user.custome_data.user_type;
+  console.log(userDbId, currentUserType);
   if (!userDbId) return null;
 
   return (
@@ -111,16 +112,18 @@ export default function GeneralDetailsEditForm({
         placeholder="City"
         defaultValue={userDetails?.address?.city}
       />
-      {userType === 'GENERAL' || userType === 'ADMIN' ? (
+      {currentUserType === 'GENERAL' || currentUserType === 'ADMIN' ? (
         <>
           <h1>Important details :</h1>
           <input
+            min={0}
             type="number"
             name="student_id"
             placeholder="IIT bhilai Id"
             defaultValue={userDetails?.student_id}
           />
           <input
+            min={0}
             type="number"
             name="aadhar_number"
             placeholder="Aadhar number"

@@ -166,25 +166,6 @@
   padding: 10px;
 }
 
-/* == == HOME PAHE == == */
-
-.home_img {
-  height: 95vh;
-  width: 50vw;
-}
-
-.first {
-  display: inline-block;
-}
-
-.left {
-  float: left;
-}
-
-.right {
-  float: left;
-}
-
 .order_button {
   /* background-color: #597ad4e8; */
   background: linear-gradient(to right, #2c59d3bb 50%, rgb(217, 219, 224) 50%);

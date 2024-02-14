@@ -51,31 +51,39 @@ export const getAccountDetailsById = async (db_id: string): Promise<IAccountDeta
 
 export const setAccountDetails = async (formData: FormData) => {
     const session = await getServerSession(authOptions);
-    const userType = session?.user?.custome_data?.user_type;
-    const db_id = userType === "ADMIN" ? formData.get('db_id') : session?.user?.custome_data?.db_id;
-    await Account.findByIdAndUpdate(db_id, {
-        seller_dispatcher: formData.get('seller_dispatcher')?.toString(),
-        telegram_number: formData.get('telegram_number')?.toString(),
-        whatsapp_number: formData.get('whatsapp_number')?.toString(),
-        phone_number: formData.get('phone_number')?.toString(),
-        father_name: formData.get('father_name')?.toString(),
-        first_name: formData.get('first_name')?.toString(),
-        last_name: formData.get('last_name')?.toString(),
-        upi_id: formData.get('upi_id')?.toString(),
-        gender: formData.get('gender')?.toString(),
-        address: {
-            additional_details: formData.get('additional_details')?.toString(),
-            landmarks: formData.get('landmarks')?.toString(),
-            building: formData.get('building')?.toString(),
-            city: formData.get('city')?.toString(),
-        },
-        ...(userType === "GNERAL" || userType === "ADMIN" ? ({
-            blood_group: formData.get('blood_group')?.toString(),
-            date_of_birth: formData.get('date_of_birth')?.toString() ? new Date(formData.get('date_of_birth')?.toString() as string) : null,
-            aadhar_number: formData.get('aadhar_number')?.toString() ? Number.parseInt(formData.get('aadhar_number')?.toString() as string) : null,
-            student_id: formData.get('student_id')?.toString() ? Number.parseInt(formData.get('student_id')?.toString() as string) : null,
-        }) : ({})),
-    });
+    const currentUserType = session?.user?.custome_data?.user_type;
+    const db_id = currentUserType === "ADMIN" ? formData.get('db_id') : session?.user?.custome_data?.db_id;
+    try {
+        await Account.findByIdAndUpdate(db_id, {
+            seller_dispatcher: formData.get('seller_dispatcher')?.toString(),
+            telegram_number: formData.get('telegram_number')?.toString(),
+            whatsapp_number: formData.get('whatsapp_number')?.toString(),
+            phone_number: formData.get('phone_number')?.toString(),
+            father_name: formData.get('father_name')?.toString(),
+            first_name: formData.get('first_name')?.toString(),
+            last_name: formData.get('last_name')?.toString(),
+            upi_id: formData.get('upi_id')?.toString(),
+            gender: formData.get('gender')?.toString(),
+            address: {
+                additional_details: formData.get('additional_details')?.toString(),
+                landmarks: formData.get('landmarks')?.toString(),
+                building: formData.get('building')?.toString(),
+                city: formData.get('city')?.toString(),
+            },
+            ...(currentUserType === "GNERAL" || currentUserType === "ADMIN" ? ({
+                ...(formData.get('aadhar_number')?.toString() ? {
+                    aadhar_number: Number.parseInt(formData.get('aadhar_number')?.toString() as string),
+                } : null),
+                ...(formData.get('student_id')?.toString() ? {
+                    student_id: Number.parseInt(formData.get('student_id')?.toString() as string),
+                } : null),
+                blood_group: formData.get('blood_group')?.toString(),
+                date_of_birth: formData.get('date_of_birth')?.toString() ? new Date(formData.get('date_of_birth')?.toString() as string) : null,
+            }) : ({})),
+        });
+    } catch (e) {
+        console.error(e);
+    }
     revalidatePath("/");
 }
 
