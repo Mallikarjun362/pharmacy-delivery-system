@@ -53,7 +53,7 @@ export default async function ProfileInfoSection({
               v={userDetails?.whatsapp_number}
             />
             <DisplaykeyValue k="Gender" v={userDetails?.gender} />
-            <DisplaykeyValue k="UPI ID" v={userDetails?.upi_id} />
+            <DisplaykeyValue k=" ID" v={userDetails?.upi_id} />
           </tbody>
         </table>
       </div>
