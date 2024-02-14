@@ -1,5 +1,5 @@
 import GeneralRequestForm from './_components/GeneralRequestForm';
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { authOptions } from '../api/auth/[...nextauth]/options';
 import { RequestCard } from './_components/Components';
 import { IUserRequest } from '@/models/UserRequest';
 import { getServerSession } from 'next-auth';

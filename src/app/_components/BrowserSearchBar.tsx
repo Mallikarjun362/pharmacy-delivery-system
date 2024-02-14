@@ -1,5 +1,5 @@
 'use client';
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { authOptions } from '../api/auth/[...nextauth]/options';
 import search from '@/../../public/search.svg';
 import { getServerSession } from 'next-auth';
 import { debugLog } from '@/utils';

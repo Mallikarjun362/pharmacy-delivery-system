@@ -11,7 +11,7 @@ const X: { [key: number]: string } = {
 };
 
 export const connectMongooseDB = async () => {
-    await new Promise(r => setTimeout(r, 200));
+    await new Promise(r => setTimeout(r, 300));
     const status = mongoose.connection.readyState;
     debugLog("DB connection", status, X[status as any]);
     if (!(status === 1 || status === 2)) {

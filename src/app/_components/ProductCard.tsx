@@ -2,7 +2,7 @@ import './components.css'
 import Image from 'next/image';
 import med from "@/../../public/images/pills.png";
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { authOptions } from '../api/auth/[...nextauth]/options';
 import { debugLog } from '@/utils';
 
 export default async function Card() {

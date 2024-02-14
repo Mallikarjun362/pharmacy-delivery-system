@@ -55,7 +55,7 @@ export const CartItemCard = ({ item, update }: { item: any; update: any }) => {
       />
       <div style={{ flex: 1, fontSize: '22px' }}>
         <p style={{ marginBottom: '10px' }}>
-          Name: <b>"{item.title}"</b>
+          Name: <b>&quot;{item.title}&quot;</b>
         </p>
         <div
           style={{

@@ -1,5 +1,5 @@
 'use server';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 import Order, { IOrderItem, OrderStatus } from '@/models/Order';
 import Account, { AccountActions } from '@/models/Account';
 import { getServerSession } from 'next-auth';

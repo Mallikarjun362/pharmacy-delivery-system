@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { authOptions } from '../api/auth/[...nextauth]/options';
 import { debugLog } from '@/utils';
 import { useState } from 'react';
 

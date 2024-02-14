@@ -1,4 +1,4 @@
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { authOptions } from '../api/auth/[...nextauth]/options';
 import { DropDownMenu } from './ClientComponents';
 import acnt from '@/../../public/person.svg';
 import { getServerSession } from 'next-auth';

@@ -1,4 +1,4 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 import { CatalogItemActions } from '@/models/CatalogItem';
 import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';

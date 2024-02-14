@@ -1,7 +1,7 @@
 import MedicineCreationForm from './_components/MedicineCreationForm';
 import { getMedicinesByMe } from './_functionality/ServerActions';
 import MedicineSellerCard from './_components/MedicineSellerCard';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 
 export default async function SellerCateloguePage() {

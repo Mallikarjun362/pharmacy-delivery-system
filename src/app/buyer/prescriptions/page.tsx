@@ -1,5 +1,5 @@
 import PrescriptionCreationForm from './_components/PrescriptionCreationForm';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 import PrescriptionCard from './_components/PrescriptionCard';
 import { PrescriptionActions } from '@/models/Prescription';
 import { getServerSession } from 'next-auth';

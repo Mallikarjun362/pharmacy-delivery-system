@@ -4,7 +4,7 @@ import {
   getAccountDetailsByEmail,
 } from './_functionality/ServerActions';
 import ProofDocumentSection from './_sections/ProofDocumentSection';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 import ProfileInfoSection from './_sections/ProfileInfoSection';
 import { ImNotification } from 'react-icons/im';
 import { getServerSession } from 'next-auth';

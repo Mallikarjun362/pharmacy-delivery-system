@@ -1,5 +1,5 @@
 'use server';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 import { PrescriptionActions } from '@/models/Prescription';
 import CatalogItem from '@/models/CatalogItem';
 import { getServerSession } from 'next-auth';
