@@ -77,6 +77,9 @@ export const setAccountDetails = async (formData: FormData) => {
                 ...(formData.get('student_id')?.toString() ? {
                     student_id: Number.parseInt(formData.get('student_id')?.toString() as string),
                 } : null),
+                ...(formData.get('user_type')?.toString() ? {
+                    user_type: formData.get('user_type')?.toString() as string,
+                } : null),
                 blood_group: formData.get('blood_group')?.toString(),
                 date_of_birth: formData.get('date_of_birth')?.toString() ? new Date(formData.get('date_of_birth')?.toString() as string) : null,
             }) : ({})),

@@ -147,6 +147,12 @@ export default function GeneralDetailsEditForm({
             placeholder="Seller owner / Dispatcher"
             defaultValue={userDetails?.seller_dispatcher}
           />
+          <select name="user_type" defaultValue={userDetails?.user_type}>
+            <option value="GENERAL">GENERAL</option>
+            <option value="BUYER">BUYER</option>
+            <option value="SELLER">SELLER</option>
+            <option value="DISPATCHER">DISPATCHER</option>
+          </select>
         </>
       ) : null}
       <input type="submit" value="Update" />
