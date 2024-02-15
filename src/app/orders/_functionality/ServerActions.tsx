@@ -51,6 +51,11 @@ export const getOrders = async (): Promise<Array<any>> => {
       .select({ _id: 1, timeline: 1, status: 1, order_status: 1 })
       .lean()
       .exec();
+  } else if (userType === 'ADMIN') {
+    result = await Order.find({ buyer: db_id })
+      .select({ _id: 1, timeline: 1, status: 1, order_status: 1 })
+      .lean()
+      .exec();
   }
   return toJSON(result);
 };
