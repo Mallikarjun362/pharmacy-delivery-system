@@ -153,6 +153,7 @@ export default function GeneralDetailsEditForm({
               <option value="BUYER">BUYER</option>
               <option value="SELLER">SELLER</option>
               <option value="DISPATCHER">DISPATCHER</option>
+              <option value="ADMIN">ADMIN</option>
             </select>
           ) : null}
         </>
