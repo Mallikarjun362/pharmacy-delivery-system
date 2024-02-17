@@ -1,13 +1,13 @@
 'use client';
 import {
-  cancleOrder,
-  dispatchOrder,
+  setOrderDelivered,
   getOrderDetails,
   refreshMessages,
-  rejectOrder,
-  sendMessage,
-  setOrderDelivered,
+  dispatchOrder,
   updateDosage,
+  sendMessage,
+  cancleOrder,
+  rejectOrder,
 } from '../_functionality/ServerActions';
 import { ActionButton } from '@/app/_components/EntityComponent';
 import { InfoBlock } from '@/app/_components/Components';
@@ -18,16 +18,35 @@ import { getTimeDiffFromNow } from '@/utils';
 import { useEffect, useState } from 'react';
 import { IMessage } from '@/models/Order';
 
-const EventsTimeLine = ({ events }: { events: Array<any> }) => (
-  <div className="tableWrapper">
-    <h1 style={{ fontSize: '30px' }}>Time line :</h1>
+const EventsTimeline = ({ events }: { events: Array<any> }) => (
+  <div
+    style={{
+      border: '2px solid gray',
+      width: 'min-content',
+      borderRadius: '10px',
+      userSelect: 'none',
+      padding: '10px',
+    }}
+  >
+    <h1 style={{ fontSize: '25px' }}>Time line </h1>
     <table style={{ padding: '10px', margin: '20px' }}>
       <tbody>
         {events.map((e: { event: string; t: string }, idx) => (
-          <tr style={{ display: 'flex', gap: '10px' }} key={idx}>
+          <tr
+            style={{ display: 'flex', gap: '10px', fontSize: '20px' }}
+            key={idx}
+          >
             <td>{idx + 1}.</td>
-            <td style={{ fontWeight: 'bold' }}>{e.event}</td>
-            <td>{getTimeDiffFromNow(e.t)}</td>
+            <td
+              style={{
+                whiteSpace: 'nowrap',
+                fontWeight: 'bold',
+                color: 'gray',
+              }}
+            >
+              {e.event}
+            </td>
+            <td style={{ whiteSpace: 'nowrap' }}>{getTimeDiffFromNow(e.t)}</td>
           </tr>
         ))}
       </tbody>
@@ -35,14 +54,15 @@ const EventsTimeLine = ({ events }: { events: Array<any> }) => (
   </div>
 );
 
-export default function SellerOrderOverview({
+export default function GlobalOrderOverview({
   order_db_id,
 }: {
   order_db_id: string;
 }) {
   const { setHoverContent } = useGlobalContext();
   const session = useSession();
-  const userType = session.data?.user.custome_data.user_type;
+  const sessionUserType = session.data?.user.custome_data.user_type;
+  const sessionDbId = session.data?.user.custome_data.db_id;
   const [orderDetails, setOrderDetails] = useState<any>({});
   const [orderMessages, setOrderMessages] = useState<Array<IMessage>>([]);
   useEffect(() => {
@@ -90,7 +110,8 @@ export default function SellerOrderOverview({
         ) : null}
       </div>
       <br />
-      <EventsTimeLine events={orderDetails.timeline} />
+      <EventsTimeline events={orderDetails.timeline} />
+      <br />
       <InfoBlock
         obj={{
           'Full name':
@@ -99,6 +120,7 @@ export default function SellerOrderOverview({
           'Order status': orderDetails.order_status,
           'Ordered at': getTimeDiffFromNow(orderDetails.timeline[0].t),
           'Payment mode': orderDetails.payment.mode,
+          'Total payment': <>&#8377; {orderDetails.total_cost}</>
         }}
       />
       <br />
@@ -125,7 +147,7 @@ export default function SellerOrderOverview({
                   <td>{item.quantity}</td>
                   <td>{item.unit_price}</td>
                   <td>
-                    {userType === 'SELLER' &&
+                    {sessionUserType === 'SELLER' &&
                     orderDetails.order_status === 'CONFIRMED' ? (
                       <form
                         action="#"
@@ -214,8 +236,13 @@ export default function SellerOrderOverview({
             setHoverContent(null);
           }}
         >
-          <input type="text" name="reason" required placeholder="Reason or Type 'Cancel'" />
-          {userType === 'BUYER' ? (
+          <input
+            type="text"
+            name="reason"
+            required
+            placeholder="Reason or Type 'Cancel'"
+          />
+          {sessionDbId === orderDetails?.buyer?._id ? (
             <input
               type="submit"
               value="Cancle"
@@ -228,7 +255,7 @@ export default function SellerOrderOverview({
               }}
             />
           ) : null}
-          {userType === 'SELLER' ? (
+          {sessionUserType === 'SELLER' ? (
             <input
               type="submit"
               value="Reject"
@@ -251,8 +278,10 @@ export default function SellerOrderOverview({
         <div>
           {orderMessages.map((msg, idx) => (
             <div key={idx}>
-              <b style={{ color: msg.s === userType ? 'green' : 'gray' }}>
-                {msg.s === userType ? 'You' : msg.s} :{' '}
+              <b
+                style={{ color: msg.s === sessionUserType ? 'green' : 'gray' }}
+              >
+                {msg.s === sessionUserType ? 'You' : msg.s} :{' '}
               </b>
               {msg.m}
             </div>
@@ -270,7 +299,7 @@ export default function SellerOrderOverview({
             });
             setOrderMessages((prev: any) => [
               ...prev,
-              { s: userType, t: Date.now(), m: message },
+              { s: sessionUserType, t: Date.now(), m: message },
             ]);
             (document.getElementById('messageForm') as any)?.reset();
           }}
@@ -300,7 +329,8 @@ export default function SellerOrderOverview({
       <div style={{ width: '100%' }}>
         <h1 style={{ fontSize: '30px', margin: '30px 0' }}>Actions :</h1>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-          {orderDetails.order_status === 'CONFIRMED' && userType === "SELLER" ? (
+          {orderDetails.order_status === 'CONFIRMED' &&
+          sessionUserType === 'SELLER' ? (
             <ActionButton
               bg="lightgreen"
               txt="Dispatched"
@@ -310,7 +340,8 @@ export default function SellerOrderOverview({
               }}
             />
           ) : null}
-          {orderDetails.order_status === 'DISPATCHED' && userType === "DISPATCHER" ? (
+          {orderDetails.order_status === 'DISPATCHED' &&
+          sessionUserType === 'DISPATCHER' ? (
             <ActionButton
               bg="lightgreen"
               txt="Delivered"

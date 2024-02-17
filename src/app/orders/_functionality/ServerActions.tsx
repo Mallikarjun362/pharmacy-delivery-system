@@ -1,6 +1,6 @@
 'use server';
 import { authOptions } from '@/app/api/auth/[...nextauth]/options';
-import Order, { IOrderItem, OrderStatus } from '@/models/Order';
+import Order, { IOrder, IOrderItem, OrderStatus } from '@/models/Order';
 import Account, { AccountActions } from '@/models/Account';
 import { getServerSession } from 'next-auth';
 import { toJSON } from '@/utils';
@@ -60,7 +60,13 @@ export const getOrders = async (): Promise<Array<any>> => {
   return toJSON(result);
 };
 
-export const getOrderDetails = async (order_db_id: string) =>
+export interface IOrderDetails extends IOrder {
+  _id: string;
+}
+
+export const getOrderDetails = async (
+  order_db_id: string
+): Promise<IOrderDetails> =>
   toJSON(
     await Order.findById(order_db_id)
       .select({
@@ -76,24 +82,12 @@ export const getOrderDetails = async (order_db_id: string) =>
       })
       .populate({
         path: 'buyer',
-        select: {
-          primary_email: 1,
-          first_name: 1,
-          last_name: 1,
-          address: 1,
-        },
+        select: { primary_email: 1, first_name: 1, last_name: 1, address: 1 },
       })
       .populate({
         path: 'prescription',
-        select: {
-          file: 1,
-        },
-        populate: {
-          path: 'file',
-          select: {
-            file: 1,
-          },
-        },
+        select: { file: 1 },
+        populate: { path: 'file', select: { file: 1 } },
       })
       .lean()
       .exec()

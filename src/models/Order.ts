@@ -33,7 +33,7 @@ export const OrderStatusValues: Array<OrderStatus> = [
     // POST
     "REFUND-REQUEST", "REFUND-WAITING", "REFUND-DONE"
 ];
-interface IOrder {
+export interface IOrder {
     delivery_feedback: { review: string, rating: 1 | 2 | 3 | 4 | 5, },
     seller_feedback: { review: string, rating: 1 | 2 | 3 | 4 | 5, },
     delivery_location: { longitude: number, latitude: number, },

@@ -1,10 +1,13 @@
 'use client';
 import { getAllMedicines } from './_functionality/ServerActions';
 import BrowseItemCard from './_components/BrowseItemCard';
+import { MdOutlineShoppingCart } from 'react-icons/md';
+import { useGlobalContext } from '../_context/store';
 import { useEffect, useState } from 'react';
 import { GoSearch } from 'react-icons/go';
 import styles from './styles.module.css';
 import '@/app/globals.css';
+import Link from 'next/link';
 
 export default function BrowsePage() {
   const [catalogItems, setCatalogItems] = useState<Array<any>>([]);
@@ -59,6 +62,25 @@ export default function BrowsePage() {
           <BrowseItemCard item_details={item} key={idx} />
         ))}
       </div>
+      <Link
+        href={'/buyer/cart'}
+        style={{
+          backgroundColor: '#2E4198',
+          borderRadius: '100px',
+          padding: '10px 20px',
+          alignItems: 'center',
+          position: 'fixed',
+          fontSize: '27px',
+          display: 'flex',
+          color: 'white',
+          gap: '20px',
+          bottom: 30,
+          right: 60,
+        }}
+      >
+        <MdOutlineShoppingCart />
+        Checkout
+      </Link>
     </main>
   );
 }

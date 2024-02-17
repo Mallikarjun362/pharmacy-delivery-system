@@ -1,5 +1,5 @@
 import HoverTriggerButton from '@/app/_components/HoverTriggerButton';
-import SellerOrderOverview from './_components/SellerOrderOverview';
+import GlobalOrderOverview from './_components/GlobalOrderOverview';
 import EntityComponent from '@/app/_components/EntityComponent';
 import { getOrders } from './_functionality/ServerActions';
 import { InfoBlock } from '@/app/_components/Components';
@@ -34,7 +34,7 @@ export default async function SellerOrdersPage() {
               }}
               title="Order overview"
               key={'add-items'}
-              hoverContent={<SellerOrderOverview order_db_id={ele._id} />}
+              hoverContent={<GlobalOrderOverview order_db_id={ele._id} />}
             />
           }
         />

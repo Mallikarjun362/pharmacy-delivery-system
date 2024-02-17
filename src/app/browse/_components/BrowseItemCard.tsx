@@ -16,8 +16,9 @@ export default function BrowseItemCard({
     item_details._id in cart ? cart[item_details._id].quantity : 0;
   const [quantity, setQuantity] = useState(initial_quantity);
   const add_item = (item: any) => {
-    setQuantity((prev) => prev + 1);
+    setQuantity((prev) => Math.min(item_details.stock_count, prev + 1));
     if (item._id in cart) {
+      if(cart[item._id].stock_count === quantity) return
       setCart((prev: any) => {
         prev[item._id].quantity = prev[item._id].quantity + 1;
         return prev;
