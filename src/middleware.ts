@@ -14,12 +14,12 @@ const routePermissions: { [key: string]: Array<string> } = {
 
 export default withAuth(
     function middleware(request: NextRequestWithAuth) {
-        const token = request.nextauth.token;
-        const pathName: string = request.nextUrl.pathname;
-
-        for (let k of Object.keys(routePermissions)) {
-            if (pathName.match(new RegExp(k))) {
-                if (!routePermissions[k].includes(token?.custome_data?.user_type as string)) {
+        const sessionUserType = request.nextauth.token?.custome_data?.user_type as string;
+        const pathName: string = request.nextUrl.pathname as string;
+        console.log(sessionUserType,pathName);
+        for (let path_regx of Object.keys(routePermissions)) {
+            if (pathName.match(new RegExp(path_regx))) {
+                if (!routePermissions[path_regx].includes(sessionUserType)) {
                     return NextResponse.rewrite(new URL("/denied", request.url))
                 }
                 break;
@@ -35,10 +35,10 @@ export default withAuth(
 
 export const config = {
     matcher: [
-        "/dispatcher/:path",
         "/account/admin",
+        "/dispatcher/:path*",
         "/seller/:path*",
-        "/buyer/:path",
-        "/admin/:path"
+        "/buyer/:path*",
+        "/admin/:path*"
     ]
 };
