@@ -15,7 +15,6 @@
     "date-fns": "^3.3.1",
     "form-data": "^4.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mailgun.js": "^9.4.1",
     "mongoose": "^8.1.1",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
