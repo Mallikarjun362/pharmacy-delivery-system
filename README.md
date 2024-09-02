@@ -57,7 +57,7 @@ Standard user profile page containing all the user information displayed in orga
 
 ### Orders Overview Page
 
-Orders page displaying the orders history. Green indicating successfully delivered. Red for orders that got cancelled. Orange for orders that are yet to arrive. White for the orders that are pending for confirmation from buyer side.
+Orders page displaying the orders history. Green indicating successfully delivered. Red for orders that got cancelled. Orange for orders that are yet to arrive. White for the orders that are pending for confirmation from seller side.
 
 |                                           |                                            |
 | ----------------------------------------- | ------------------------------------------ |
