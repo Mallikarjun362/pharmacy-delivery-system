@@ -34,7 +34,7 @@
 
 # Demo 😇
 
-### Browse Page
+### Browsing Page
 
 Search and place orders.
 | | |
